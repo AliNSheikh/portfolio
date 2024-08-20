@@ -1015,3 +1015,62 @@ img{
         grid-template-columns: repeat(2,1fr);
     }
 }
+.floating-buttons {
+      position: fixed;
+      bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 20px;
+      z-index: 999;
+    }
+
+
+    .floating-buttons button {
+      background-color: #4CAF50;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+    }
+
+    .floating-buttons button:hover {
+      background-color: #45a049;
+    }
+
+    .floating-buttons button.linkedin {
+      background-color: #0077B5;
+    }
+
+    .floating-buttons button.linkedin:hover {
+      background-color: #005e8c;
+    }
+
+    .floating-buttons button.github {
+      background-color: #24292e;
+    }
+
+    .floating-buttons button.github:hover {
+      background-color: #0e1217;
+    }
+
+    @media (max-width: 767px) {
+      .floating-buttons {
+        flex-direction: column;
+        align-items: center;
+        bottom: 10px;
+      }
+
+      .floating-buttons button {
+        margin-bottom: 10px;
+      }
