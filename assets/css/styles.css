@@ -437,10 +437,13 @@ img{
     background-color: var(--first-color);
 }
 .skills__html,.skills__css{
-    width: 100%;
+    width: 90%;
 }
 .skills__dart,.skills__flutter{
     width: 80%;
+}
+.skills__react{
+    width: 70%;
 }
 .skills__java{
     width: 60%;
