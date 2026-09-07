@@ -782,8 +782,8 @@
           "subtitle": "",
           "description": "Planning and optimizing paid campaigns across Meta, Google, TikTok, and Snapchat, with reporting, audience testing, tracking setup, and ROI-focused scaling.",
           "body": "",
-          "image": "",
-          "imageAlt": "",
+          "image": "uploads/Colored-Logo-Alpha-2-c4f4b78f-7408-4b5e-95bf-d89284b94b9c.png",
+          "imageAlt": "Sada Media Agency",
           "url": "",
           "buttonLabel": "",
           "icon": "sparkles",
@@ -818,7 +818,7 @@
           "subtitle": "",
           "description": "Managed Shopify and WordPress websites, improved SEO and user experience, created campaign content, configured analytics, and supported paid media growth.",
           "body": "",
-          "image": "",
+          "image": "https://www.matthiolaflowers.com/cdn/shop/files/Untitled_design_310x@2x.png?v=1769453834",
           "imageAlt": "",
           "url": "",
           "buttonLabel": "",
@@ -1256,6 +1256,22 @@
       "path": "uploads/IMG-20260729-165831-6c52c88f-b806-4b38-ac77-6b5031f6d6bb.png",
       "type": "image/png",
       "size": 1261832,
+      "alt": ""
+    },
+    {
+      "id": "media-2b7b8244-83c",
+      "name": "Colored Logo Alpha (2).png",
+      "path": "uploads/Colored-Logo-Alpha-2-939363aa-cc1f-45e3-8efd-f1310ebcb3d9.png",
+      "type": "image/png",
+      "size": 64340,
+      "alt": ""
+    },
+    {
+      "id": "media-6877ca91-d68",
+      "name": "Colored Logo Alpha (2).png",
+      "path": "uploads/Colored-Logo-Alpha-2-c4f4b78f-7408-4b5e-95bf-d89284b94b9c.png",
+      "type": "image/png",
+      "size": 64340,
       "alt": ""
     }
   ]
