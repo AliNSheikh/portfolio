@@ -899,21 +899,21 @@
       "items": [
         {
           "id": "bsc",
-          "title": "Bachelor's degree in Computer Science",
+          "title": "Bachelor's degree in Information Technology",
           "subtitle": "",
-          "description": "",
+          "description": "Section : Artificial Intelligence ",
           "body": "",
-          "image": "",
-          "imageAlt": "",
+          "image": "uploads/1631341346110-97b7d14c-303b-4e13-b713-ee858aacceca.jpg",
+          "imageAlt": "graduate certificate",
           "url": "",
           "buttonLabel": "",
           "icon": "graduation-cap",
           "status": "published",
           "featured": false,
-          "company": "",
-          "location": "",
-          "startDate": "",
-          "endDate": "",
+          "company": "Tishreen University",
+          "location": "Lattakia",
+          "startDate": "2017-09",
+          "endDate": "2023-08",
           "current": false,
           "issuer": "",
           "issueDate": "",
@@ -1631,6 +1631,14 @@
       "path": "uploads/ebd6e16f-f3b3-475e-b75a-f6612c1d8739-2726c739-139f-421b-87c3-641a5cbcac25.jpg",
       "type": "image/jpeg",
       "size": 140804,
+      "alt": ""
+    },
+    {
+      "id": "media-21f6186c-557",
+      "name": "1631341346110.jpg",
+      "path": "uploads/1631341346110-97b7d14c-303b-4e13-b713-ee858aacceca.jpg",
+      "type": "image/jpeg",
+      "size": 14696,
       "alt": ""
     }
   ]
