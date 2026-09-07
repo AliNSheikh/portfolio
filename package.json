@@ -1,0 +1,33 @@
+{
+  "name": "ali-sheikh-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "node --import tsx scripts/prepare.ts && vite",
+    "build": "node --import tsx scripts/build.ts",
+    "preview": "vite preview",
+    "check": "node --import tsx scripts/prepare.ts && tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.ts"
+  },
+  "dependencies": {
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "lucide-react": "^1.31.0",
+    "markdown-it": "^14.1.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^22.19.19",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "6.0.2",
+    "tsx": "^4.20.6",
+    "typescript": "5.9.3",
+    "vite": "8.2.2"
+  }
+}

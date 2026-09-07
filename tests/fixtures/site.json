@@ -1,0 +1,516 @@
+{
+  "schemaVersion": 1,
+  "profile": {
+    "name": "Ali Sheikh",
+    "surname": "Sheikh",
+    "role": "Digital Marketing Specialist & Developer",
+    "introduction": "I plan, execute, and optimize paid advertising campaigns while building the websites, landing pages, tracking systems, and mobile experiences that help campaigns convert.",
+    "location": "Dubai, UAE",
+    "image": "uploads/ali.jpg",
+    "imageAlt": "Ali Sheikh, digital marketing specialist and developer in Dubai",
+    "imagePosition": "50% 40%",
+    "cv": "uploads/ali-sheikh-cv.pdf",
+    "visible": true,
+    "eyebrow": "Digital growth specialist",
+    "highlights": [
+      {
+        "label": "React",
+        "icon": "react"
+      },
+      {
+        "label": "Node.js",
+        "icon": "node"
+      },
+      {
+        "label": "AI-assisted workflows",
+        "icon": "network"
+      }
+    ],
+    "primaryAction": {
+      "label": "Contact Me",
+      "destination": "#contact",
+      "visible": true,
+      "newTab": false
+    },
+    "secondaryAction": {
+      "label": "Download CV",
+      "destination": "@cv",
+      "visible": true,
+      "newTab": false
+    }
+  },
+  "branding": {
+    "title": "Ali Sheikh | Digital Marketing Specialist & Developer",
+    "displayName": "Ali Sheikh",
+    "favicon": "uploads/favicon.png",
+    "description": "Performance marketing, paid ads, SEO, analytics, React, Node.js, Shopify, WordPress, Flutter, and web development.",
+    "socialImage": "uploads/ali.jpg",
+    "footerText": "© {year} Ali Sheikh. All rights reserved.",
+    "labels": {
+      "visitWebsite": "Visit Website",
+      "visitInstagram": "Visit Instagram",
+      "viewCertificate": "View certificate",
+      "readArticle": "Read article",
+      "allArticles": "All articles",
+      "viewCode": "View code",
+      "viewResult": "View result",
+      "backToArticles": "Back to articles",
+      "readMore": "Read more",
+      "showImage": "Show preview image"
+    }
+  },
+  "contact": {
+    "floating": true,
+    "footerLinks": true,
+    "links": [
+      {
+        "id": "phone",
+        "kind": "phone",
+        "label": "Call",
+        "value": "+971501646033",
+        "visible": true,
+        "newTab": false,
+        "icon": "phone"
+      },
+      {
+        "id": "whatsapp",
+        "kind": "whatsapp",
+        "label": "WhatsApp",
+        "value": "https://wa.me/971501646033",
+        "visible": true,
+        "newTab": true,
+        "icon": "whatsapp"
+      },
+      {
+        "id": "email",
+        "kind": "email",
+        "label": "Email",
+        "value": "alinsheikh2020@gmail.com",
+        "visible": true,
+        "newTab": false,
+        "icon": "mail"
+      },
+      {
+        "id": "linkedin",
+        "kind": "linkedin",
+        "label": "LinkedIn",
+        "value": "https://www.linkedin.com/in/ali-sheikh98/",
+        "visible": true,
+        "newTab": true,
+        "icon": "linkedin"
+      },
+      {
+        "id": "github",
+        "kind": "github",
+        "label": "GitHub",
+        "value": "https://github.com/AliNSheikh",
+        "visible": true,
+        "newTab": true,
+        "icon": "github"
+      }
+    ]
+  },
+  "appearance": {
+    "background": "#FFFFFF",
+    "accent": "#A7823A",
+    "actionColor": "#0F766E",
+    "motion": true,
+    "respectReducedMotion": true,
+    "intensity": "low"
+  },
+  "seo": {
+    "siteUrl": "https://alinsheikh.github.io/portfolio/",
+    "titleTemplate": "{title} | Ali Sheikh",
+    "ga4Id": "",
+    "googleVerification": "",
+    "indexable": true,
+    "language": "en"
+  },
+  "sections": [
+    {
+      "id": "expertise",
+      "type": "expertise",
+      "eyebrow": "What I bring",
+      "title": "Marketing strategy with technical execution",
+      "description": "My strongest work happens where campaign goals and product experience meet: clean tracking, fast pages, strong creatives, and careful optimization.",
+      "visible": true,
+      "showInNav": true,
+      "navLabel": "Expertise",
+      "layout": "grid",
+      "items": [
+        {
+          "id": "paid-media",
+          "title": "Paid Media & Media Buying",
+          "description": "Full-funnel campaigns across Google Ads, Meta Ads, TikTok, Snapchat, and remarketing.",
+          "body": "- Campaign planning and budget allocation\n- CPA, CPC, CTR, ROAS, and conversion analysis\n- Audience research, A/B testing, and scaling",
+          "icon": "megaphone"
+        },
+        {
+          "id": "seo-cro",
+          "title": "SEO, CRO & Analytics",
+          "description": "Search visibility, conversion tracking, and landing page improvements for measurable growth.",
+          "body": "- Google Analytics, Search Console, and Tag Manager\n- Meta Pixel, conversion APIs, and UTM structure\n- On-page SEO, content optimization, and CRO",
+          "icon": "chart"
+        },
+        {
+          "id": "web-app",
+          "title": "Web & Mobile Development",
+          "description": "Development experience that helps marketing teams move faster and measure better.",
+          "body": "- React, Node.js, Shopify, WordPress, HTML, CSS, and JavaScript\n- Flutter apps for Android, iOS, web, and desktop\n- Firebase, MySQL, REST APIs, and Google Maps APIs",
+          "icon": "code"
+        },
+        {
+          "id": "ai-workflows",
+          "title": "AI-assisted workflows",
+          "description": "AI tools supporting research, content and development.",
+          "icon": "network"
+        }
+      ]
+    },
+    {
+      "id": "skills",
+      "type": "skills",
+      "eyebrow": "Capabilities",
+      "title": "Skills & tools",
+      "description": "",
+      "visible": true,
+      "showInNav": false,
+      "navLabel": "Skills",
+      "layout": "grid",
+      "items": [
+        {
+          "id": "google-ads",
+          "title": "Google Ads",
+          "description": "Search, display, remarketing, CPA, ROAS, and campaign scaling.",
+          "icon": "google"
+        },
+        {
+          "id": "meta-ads",
+          "title": "Meta Ads",
+          "description": "Facebook and Instagram campaigns, audiences, pixels, and creatives.",
+          "icon": "meta"
+        },
+        {
+          "id": "seo",
+          "title": "SEO & CRO",
+          "description": "On-page SEO, landing page optimization, and conversion improvements.",
+          "icon": "search"
+        },
+        {
+          "id": "shopify",
+          "title": "Shopify",
+          "description": "Store management, theme customization, products, and performance fixes.",
+          "icon": "shopping-bag"
+        },
+        {
+          "id": "wordpress",
+          "title": "WordPress",
+          "description": "Website management, content updates, SEO pages, and UX improvements.",
+          "icon": "wordpress"
+        },
+        {
+          "id": "flutter",
+          "title": "Flutter",
+          "description": "Cross-platform apps for Android, iOS, web, and desktop.",
+          "icon": "smartphone"
+        },
+        {
+          "id": "react",
+          "title": "React",
+          "description": "Responsive websites and interactive interfaces.",
+          "icon": "react"
+        },
+        {
+          "id": "node",
+          "title": "Node.js",
+          "description": "Server-side applications and web services.",
+          "icon": "node"
+        },
+        {
+          "id": "analytics",
+          "title": "Analytics",
+          "description": "GA4, Google Tag Manager, Meta Pixel, UTMs, and reporting.",
+          "icon": "chart"
+        },
+        {
+          "id": "design",
+          "title": "Content & Design",
+          "description": "Canva creatives, content strategy, social posts, and landing copy.",
+          "icon": "pen"
+        },
+        {
+          "id": "web-dev",
+          "title": "Web Development",
+          "description": "HTML, CSS, JavaScript, React, Firebase, MySQL, and REST APIs.",
+          "icon": "code"
+        },
+        {
+          "id": "languages",
+          "title": "Languages",
+          "description": "Arabic native speaker with expert English communication.",
+          "icon": "languages"
+        },
+        {
+          "id": "ai",
+          "title": "AI tools",
+          "description": "Research, content and development workflows.",
+          "icon": "sparkles"
+        }
+      ]
+    },
+    {
+      "id": "experience",
+      "type": "experience",
+      "eyebrow": "Professional path",
+      "title": "Experience",
+      "description": "",
+      "visible": true,
+      "showInNav": true,
+      "navLabel": "Experience",
+      "layout": "list",
+      "items": [
+        {
+          "id": "sada",
+          "title": "Digital Marketing & Media Buyer",
+          "company": "Sada Media Agency",
+          "location": "Dubai, UAE",
+          "startDate": "2025-09",
+          "current": true,
+          "description": "Planning and optimizing paid campaigns across Meta, Google, TikTok, and Snapchat, with reporting, audience testing, tracking setup, and ROI-focused scaling."
+        },
+        {
+          "id": "elegant",
+          "title": "Web Developer & Digital Marketing",
+          "company": "Elegant Flowers",
+          "location": "Dubai, UAE",
+          "startDate": "2023-09",
+          "endDate": "2025-09",
+          "description": "Managed Shopify and WordPress websites, improved SEO and user experience, created campaign content, configured analytics, and supported paid media growth."
+        },
+        {
+          "id": "mediatech",
+          "title": "Software Developer | Digital Marketing",
+          "company": "MediaTech",
+          "location": "Syria",
+          "startDate": "2021-01",
+          "endDate": "2023-06",
+          "description": "Developed Flutter applications, maintained company web properties, supported digital advertising activity, and handled technical troubleshooting across teams."
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "type": "education",
+      "eyebrow": "Academic foundation",
+      "title": "Education",
+      "description": "",
+      "visible": true,
+      "showInNav": false,
+      "navLabel": "Education",
+      "layout": "list",
+      "items": [
+        {
+          "id": "bsc",
+          "title": "Bachelor's degree in Computer Science",
+          "icon": "graduation-cap"
+        }
+      ]
+    },
+    {
+      "id": "certificates",
+      "type": "certificates",
+      "eyebrow": "Courses & professional development",
+      "title": "Learning, backed by credentials",
+      "description": "",
+      "visible": true,
+      "showInNav": true,
+      "navLabel": "Certificates",
+      "layout": "grid",
+      "items": []
+    },
+    {
+      "id": "results",
+      "type": "campaigns",
+      "eyebrow": "Campaign results",
+      "title": "The work. The results.",
+      "description": "",
+      "visible": true,
+      "showInNav": true,
+      "navLabel": "Results",
+      "layout": "grid",
+      "items": []
+    },
+    {
+      "id": "work",
+      "type": "websites",
+      "eyebrow": "Selected work",
+      "title": "Websites & applications",
+      "description": "A mix of marketing operations, e-commerce optimization, and development projects.",
+      "visible": true,
+      "showInNav": true,
+      "navLabel": "Work",
+      "layout": "grid",
+      "items": [
+        {
+          "id": "matthiola",
+          "title": "Matthiola Flowers",
+          "description": "Dubai flower delivery e-commerce website with Shopify operations, product collections, and conversion-focused shopping flows.",
+          "image": "uploads/matthiola.png",
+          "imageAlt": "Matthiola Flowers e-commerce website preview",
+          "url": "https://www.matthiolaflowers.com/",
+          "platform": "Shopify · E-commerce",
+          "featured": true,
+          "previewMode": "image"
+        },
+        {
+          "id": "omega",
+          "title": "Omega E-commerce App",
+          "description": "Flutter, Dart, REST APIs, Google Maps integration, and mobile commerce flows.",
+          "image": "uploads/omega.jpg",
+          "imageAlt": "Omega e-commerce app preview",
+          "url": "https://github.com/AliNezarSheikh/OmegaApp/tree/version3",
+          "platform": "Flutter · Mobile commerce",
+          "buttonLabel": "View code"
+        },
+        {
+          "id": "ourlib",
+          "title": "Ourlib",
+          "description": "Flutter library app using Firebase and local storage for a smoother mobile experience.",
+          "image": "uploads/mylib.jpeg",
+          "imageAlt": "Ourlib Flutter application preview",
+          "url": "https://github.com/AliNSheikh/Mylib",
+          "platform": "Flutter · Firebase",
+          "buttonLabel": "View code"
+        },
+        {
+          "id": "marketing-websites",
+          "title": "Marketing Websites & Tracking",
+          "description": "Shopify and WordPress improvements, SEO content, landing pages, analytics, and pixels.",
+          "image": "uploads/project-image.jpg",
+          "imageAlt": "Marketing and web development workspace",
+          "url": "#contact",
+          "platform": "Web · Analytics",
+          "buttonLabel": "Discuss a project"
+        }
+      ]
+    },
+    {
+      "id": "instagram",
+      "type": "instagram",
+      "eyebrow": "Social media management",
+      "title": "Pages I've managed",
+      "description": "",
+      "visible": true,
+      "showInNav": false,
+      "navLabel": "Instagram",
+      "layout": "grid",
+      "items": []
+    },
+    {
+      "id": "clients",
+      "type": "clients",
+      "eyebrow": "Collaborations",
+      "title": "Clients I've worked with",
+      "description": "",
+      "visible": true,
+      "showInNav": false,
+      "navLabel": "Clients",
+      "layout": "grid",
+      "items": []
+    },
+    {
+      "id": "articles",
+      "type": "articles",
+      "eyebrow": "Articles",
+      "title": "Notes on marketing & development",
+      "description": "",
+      "visible": true,
+      "showInNav": true,
+      "navLabel": "Articles",
+      "layout": "grid",
+      "items": []
+    },
+    {
+      "id": "testimonials",
+      "type": "testimonials",
+      "eyebrow": "Client feedback",
+      "title": "What clients say",
+      "description": "",
+      "visible": true,
+      "showInNav": false,
+      "navLabel": "Testimonials",
+      "layout": "grid",
+      "items": []
+    },
+    {
+      "id": "contact",
+      "type": "contact",
+      "eyebrow": "Let's connect",
+      "title": "Let us talk about growth, campaigns, or development.",
+      "description": "Available for digital marketing, media buying, website optimization, Shopify / WordPress work, Flutter development, and hybrid marketing-tech roles.",
+      "visible": true,
+      "showInNav": true,
+      "navLabel": "Contact",
+      "layout": "grid",
+      "items": []
+    }
+  ],
+  "media": [
+    {
+      "id": "ali-photo",
+      "name": "Ali Sheikh portrait",
+      "path": "uploads/ali.jpg",
+      "type": "image/jpeg",
+      "size": 97606,
+      "alt": "Ali Sheikh in Dubai"
+    },
+    {
+      "id": "cv-file",
+      "name": "Ali Sheikh CV",
+      "path": "uploads/ali-sheikh-cv.pdf",
+      "type": "application/pdf",
+      "size": 495411,
+      "alt": ""
+    },
+    {
+      "id": "favicon-file",
+      "name": "Portfolio favicon",
+      "path": "uploads/favicon.png",
+      "type": "image/png",
+      "size": 12198,
+      "alt": ""
+    },
+    {
+      "id": "matthiola-image",
+      "name": "Matthiola Flowers",
+      "path": "uploads/matthiola.png",
+      "type": "image/png",
+      "size": 833481,
+      "alt": "Matthiola Flowers website"
+    },
+    {
+      "id": "omega-image",
+      "name": "Omega app",
+      "path": "uploads/omega.jpg",
+      "type": "image/jpeg",
+      "size": 351945,
+      "alt": "Omega app"
+    },
+    {
+      "id": "ourlib-image",
+      "name": "Ourlib app",
+      "path": "uploads/mylib.jpeg",
+      "type": "image/jpeg",
+      "size": 142781,
+      "alt": "Ourlib app"
+    },
+    {
+      "id": "workspace-image",
+      "name": "Marketing workspace",
+      "path": "uploads/project-image.jpg",
+      "type": "image/jpeg",
+      "size": 214871,
+      "alt": "Marketing and development"
+    }
+  ]
+}
