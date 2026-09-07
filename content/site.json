@@ -1248,7 +1248,44 @@
       "showInNav": false,
       "navLabel": "Clients",
       "layout": "grid",
-      "items": []
+      "items": [
+        {
+          "id": "item-78c313b0-1fd",
+          "title": "Damascus Motors",
+          "subtitle": "",
+          "description": "",
+          "body": "",
+          "image": "uploads/logo-fd4e39e4-6416-4d90-9c09-681c0b8661f3.png",
+          "imageAlt": "Damascus Motors",
+          "url": "https://www.damascus-motors.com/",
+          "buttonLabel": "",
+          "icon": "sparkles",
+          "status": "published",
+          "featured": false,
+          "company": "",
+          "location": "",
+          "startDate": "",
+          "endDate": "",
+          "current": false,
+          "issuer": "",
+          "issueDate": "",
+          "credentialId": "",
+          "platform": "",
+          "period": "",
+          "role": "",
+          "category": "",
+          "slug": "",
+          "date": "",
+          "updatedDate": "",
+          "seoTitle": "",
+          "seoDescription": "",
+          "canonicalUrl": "",
+          "socialImage": "",
+          "indexable": true,
+          "previewMode": "image",
+          "metrics": []
+        }
+      ]
     },
     {
       "id": "articles",
@@ -1398,6 +1435,14 @@
       "path": "uploads/WhatsApp-Image-2026-09-07-at-3-21-49-PM-3c5ac96d-66d1-4335-98f2-24bf2d4810e8.jpg",
       "type": "image/jpeg",
       "size": 168961,
+      "alt": ""
+    },
+    {
+      "id": "media-ac02b444-61d",
+      "name": "logo.png",
+      "path": "uploads/logo-fd4e39e4-6416-4d90-9c09-681c0b8661f3.png",
+      "type": "image/png",
+      "size": 1524790,
       "alt": ""
     }
   ]
