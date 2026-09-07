@@ -44,7 +44,7 @@
     "displayName": "Ali Sheikh",
     "favicon": "uploads/favicon.png",
     "description": "Performance marketing, paid ads, SEO, analytics, React, Node.js, Shopify, WordPress, Flutter, and web development.",
-    "socialImage": "uploads/ali.jpg",
+    "socialImage": "uploads/IMG-20260729-165831-6c52c88f-b806-4b38-ac77-6b5031f6d6bb.png",
     "footerText": "© {year} Ali Sheikh. All rights reserved.",
     "labels": {
       "visitWebsite": "Visit Website",
@@ -1246,6 +1246,14 @@
       "id": "media-f826fd17-ebd",
       "name": "IMG_20260729_165831.png",
       "path": "uploads/IMG-20260729-165831-b042b445-8547-40af-9ca2-1db4ddfe31c9.png",
+      "type": "image/png",
+      "size": 1261832,
+      "alt": ""
+    },
+    {
+      "id": "media-3937c19a-9d5",
+      "name": "IMG_20260729_165831.png",
+      "path": "uploads/IMG-20260729-165831-6c52c88f-b806-4b38-ac77-6b5031f6d6bb.png",
       "type": "image/png",
       "size": 1261832,
       "alt": ""
