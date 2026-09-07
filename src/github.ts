@@ -79,7 +79,7 @@ export class GitHubCMS {
   constructor(
     config: ProjectConfig,
     private token: string,
-    private transport: typeof fetch = fetch,
+    private transport: typeof fetch = (...args) => window.fetch(...args),
   ) {
     this.config = validateProject(config);
     this.root = `/repos/${encodeURIComponent(config.owner)}/${encodeURIComponent(config.repository)}`;
