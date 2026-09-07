@@ -110,9 +110,11 @@ export class GitHubCMS {
         },
         ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
       });
-    } catch {
+    } catch (error) {
+      const detail =
+        error instanceof Error ? error.message : String(error);
       throw new Error(
-        "GitHub could not be reached. Check your connection and reload the repository before retrying a save. Your local edits have been kept.",
+        `GitHub connection failed: ${detail}. Check your internet connection, browser extensions, and that https://api.github.com is reachable.`,
       );
     }
     if (!response.ok) {
