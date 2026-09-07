@@ -1294,6 +1294,42 @@
           "indexable": true,
           "previewMode": "image",
           "metrics": []
+        },
+        {
+          "id": "item-e2a81736-1d4",
+          "title": "Charbel Chalhoub ",
+          "subtitle": "@charbel_chalhoub_official",
+          "description": "",
+          "body": "",
+          "image": "uploads/ebd6e16f-f3b3-475e-b75a-f6612c1d8739-2726c739-139f-421b-87c3-641a5cbcac25.jpg",
+          "imageAlt": "charbel chalhoub",
+          "url": "https://www.instagram.com/charbel_chalhoub_official/",
+          "buttonLabel": "Visit Profile",
+          "icon": "sparkles",
+          "status": "published",
+          "featured": false,
+          "company": "",
+          "location": "",
+          "startDate": "",
+          "endDate": "",
+          "current": false,
+          "issuer": "",
+          "issueDate": "",
+          "credentialId": "",
+          "platform": "",
+          "period": "",
+          "role": "Media Buyer",
+          "category": "",
+          "slug": "",
+          "date": "",
+          "updatedDate": "",
+          "seoTitle": "",
+          "seoDescription": "",
+          "canonicalUrl": "",
+          "socialImage": "",
+          "indexable": true,
+          "previewMode": "image",
+          "metrics": []
         }
       ]
     },
@@ -1587,6 +1623,14 @@
       "path": "uploads/JPC-Dubai-Pest-Control-Cleaning-Facilities-Mainten-a745aa29-24b3-44b7-a395-00db9a871430.png",
       "type": "image/png",
       "size": 2123273,
+      "alt": ""
+    },
+    {
+      "id": "media-ab4d88e9-8c6",
+      "name": "ebd6e16f-f3b3-475e-b75a-f6612c1d8739.jpg",
+      "path": "uploads/ebd6e16f-f3b3-475e-b75a-f6612c1d8739-2726c739-139f-421b-87c3-641a5cbcac25.jpg",
+      "type": "image/jpeg",
+      "size": 140804,
       "alt": ""
     }
   ]
