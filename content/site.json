@@ -1206,7 +1206,7 @@
           "subtitle": "@fitnessbridgegym",
           "description": "",
           "body": "",
-          "image": "",
+          "image": "uploads/WhatsApp-Image-2026-09-07-at-3-21-49-PM-3c5ac96d-66d1-4335-98f2-24bf2d4810e8.jpg",
           "imageAlt": "",
           "url": "https://www.instagram.com/fitnessbridgegym/",
           "buttonLabel": "Visit Profile",
@@ -1233,7 +1233,7 @@
           "canonicalUrl": "",
           "socialImage": "",
           "indexable": true,
-          "previewMode": "image",
+          "previewMode": "embed",
           "metrics": []
         }
       ]
@@ -1382,6 +1382,22 @@
       "path": "uploads/Colored-Logo-Alpha-2-c4f4b78f-7408-4b5e-95bf-d89284b94b9c.png",
       "type": "image/png",
       "size": 64340,
+      "alt": ""
+    },
+    {
+      "id": "media-c00474d8-8b8",
+      "name": "c0eea937-c304-46e2-a766-8ea1d0b43796.jpg",
+      "path": "uploads/c0eea937-c304-46e2-a766-8ea1d0b43796-d80f2079-8156-499e-b977-7be85134708f.jpg",
+      "type": "image/jpeg",
+      "size": 65342,
+      "alt": ""
+    },
+    {
+      "id": "media-cccd85c4-3d7",
+      "name": "WhatsApp Image 2026-09-07 at 3.21.49 PM.jpeg",
+      "path": "uploads/WhatsApp-Image-2026-09-07-at-3-21-49-PM-3c5ac96d-66d1-4335-98f2-24bf2d4810e8.jpg",
+      "type": "image/jpeg",
+      "size": 168961,
       "alt": ""
     }
   ]
