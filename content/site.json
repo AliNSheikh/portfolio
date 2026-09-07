@@ -6,7 +6,7 @@
     "role": "Digital Marketing Specialist & Developer",
     "introduction": "I plan, execute, and optimize paid advertising campaigns while building the websites, landing pages, tracking systems, and mobile experiences that help campaigns convert.",
     "location": "Dubai, UAE",
-    "image": "uploads/IMG-20260729-165831-958da472-1eab-4fe1-bfcf-a198096ef347.png",
+    "image": "uploads/IMG-20260729-165831-b042b445-8547-40af-9ca2-1db4ddfe31c9.png",
     "imageAlt": "Ali Sheikh, digital marketing specialist and developer in Dubai",
     "imagePosition": "50% 40%",
     "cv": "uploads/ali-sheikh-cv.pdf",
@@ -1240,6 +1240,14 @@
       "path": "uploads/IMG-20260729-165831-958da472-1eab-4fe1-bfcf-a198096ef347.png",
       "type": "image/png",
       "size": 1472524,
+      "alt": ""
+    },
+    {
+      "id": "media-f826fd17-ebd",
+      "name": "IMG_20260729_165831.png",
+      "path": "uploads/IMG-20260729-165831-b042b445-8547-40af-9ca2-1db4ddfe31c9.png",
+      "type": "image/png",
+      "size": 1261832,
       "alt": ""
     }
   ]
