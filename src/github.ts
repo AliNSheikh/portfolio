@@ -106,7 +106,6 @@ export class GitHubCMS {
         headers: {
           Accept: accept,
           Authorization: "Bearer " + this.token,
-          "X-GitHub-Api-Version": "2026-03-10",
           ...(body !== undefined ? { "Content-Type": "application/json" } : {}),
         },
         ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
