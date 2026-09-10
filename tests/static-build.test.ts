@@ -138,10 +138,19 @@ test("a complete production build creates article HTML and excludes drafts; dele
           !(await readFile(path, "utf8")).includes("SENTINEL"),
           "Draft leaked into " + path,
         );
+    const builtSitemap = await readFile(
+      join(directory, "dist/sitemap.xml"),
+      "utf8",
+    );
+    assert.ok(
+      builtSitemap.startsWith('<?xml version="1.0" encoding="UTF-8"?>'),
+    );
+    assert.match(builtSitemap, /build-verification/);
     assert.match(
-      await readFile(join(directory, "dist/sitemap.xml"), "utf8"),
+      await readFile(join(directory, "dist/sitemap.txt"), "utf8"),
       /build-verification/,
     );
+    await access(join(directory, "dist/.nojekyll"));
     document.profile.image = "";
     document.profile.cv = "";
     document.profile.secondaryAction.visible = false;

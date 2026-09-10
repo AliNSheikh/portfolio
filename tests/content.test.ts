@@ -21,7 +21,7 @@ import {
   validateDocument,
 } from "../src/safe";
 import { Portfolio } from "../src/portfolio";
-import { pageHead, sitemap } from "../scripts/seo";
+import { pageHead, sitemap, sitemapText } from "../scripts/seo";
 import { stageFile } from "../src/admin/media";
 const seed = siteSchema.parse(
   JSON.parse(
@@ -193,6 +193,16 @@ test("search metadata, canonical URLs, article JSON-LD, and sitemap have real pa
   assert.match(head, /"@type":"Article"/);
   assert.match(head, /A useful article summary/);
   assert.match(xml, /publishing-guide/);
+  assert.ok(xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>'));
+  assert.match(
+    xml,
+    /<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/,
+  );
+  assert.match(xml, /<loc>https:\/\/alinsheikh\.github\.io\/portfolio\/<\/loc>/);
+  assert.equal(
+    sitemapText(doc).split("\n").filter(Boolean)[0],
+    "https://alinsheikh.github.io/portfolio/",
+  );
   article.indexable = false;
   assert.match(
     pageHead(doc, { route: "/articles/publishing-guide/", article }),
