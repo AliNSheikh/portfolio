@@ -7,7 +7,7 @@ import { Portfolio } from "../src/portfolio";
 import { allArticles } from "../src/model";
 import { escapeHtml, localMediaPaths } from "../src/safe";
 import { prepare } from "./prepare";
-import { pageHead, sitemap, type Page } from "./seo";
+import { pageHead, sitemap, sitemapText, type Page } from "./seo";
 
 const { site, project } = await prepare();
 for (const path of localMediaPaths(site)) {
@@ -51,12 +51,20 @@ for (const page of pages) {
   await mkdir(join(output, ".."), { recursive: true });
   await writeFile(output, html);
 }
-await writeFile("dist/sitemap.xml", sitemap(site));
+await writeFile("dist/sitemap.xml", sitemap(site), "utf8");
+await writeFile("dist/sitemap.txt", sitemapText(site), "utf8");
 await writeFile(
   "dist/robots.txt",
-  `User-agent: *\n${site.seo.indexable ? `Disallow: ${project.basePath}admin/` : "Disallow: /"}\nSitemap: ${new URL("sitemap.xml", site.seo.siteUrl).href}\n`,
+  [
+    "User-agent: *",
+    site.seo.indexable ? `Disallow: ${project.basePath}admin/` : "Disallow: /",
+    `Sitemap: ${new URL("sitemap.xml", site.seo.siteUrl).href}`,
+    `Sitemap: ${new URL("sitemap.txt", site.seo.siteUrl).href}`,
+    "",
+  ].join("\n"),
+  "utf8",
 );
-await writeFile("dist/.nojekyll", "");
+await writeFile("dist/.nojekyll", "", "utf8");
 console.log(
   `Built portfolio, admin panel, and ${allArticles(site).length} published article pages. No drafts are copied into dist.`,
 );

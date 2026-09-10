@@ -82,39 +82,76 @@ export function pageHead(site: SiteDocument, page: Page) {
     .filter(Boolean)
     .join("\n");
 }
-export function sitemap(site: SiteDocument) {
-  const urls = site.seo.indexable
-    ? [
-        { loc: site.seo.siteUrl, date: "" },
-        { loc: absoluteUrl("articles/", site.seo.siteUrl), date: "" },
-        ...allArticles(site)
-          .filter(
-            (a) =>
-              a.indexable &&
-              (!a.canonicalUrl ||
-                a.canonicalUrl ===
-                  absoluteUrl(
-                    "articles/" + encodeURIComponent(a.slug) + "/",
-                    site.seo.siteUrl,
-                  )),
-          )
-          .map((a) => ({
-            loc: absoluteUrl(
-              "articles/" + encodeURIComponent(a.slug) + "/",
-              site.seo.siteUrl,
-            ),
-            date: a.updatedDate || a.date,
-          })),
-      ]
-    : [];
-  return (
-    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-    urls
-      .map(
-        (u) =>
-          `  <url><loc>${escapeHtml(u.loc)}</loc>${/^\d{4}-\d{2}-\d{2}$/.test(u.date) ? `<lastmod>${u.date}</lastmod>` : ""}</url>`,
+function xmlEscape(value: string) {
+  return value.replace(/[&<>]/g, (character) => {
+    if (character === "&") return "&amp;";
+    if (character === "<") return "&lt;";
+    return "&gt;";
+  });
+}
+
+export function sitemapUrls(site: SiteDocument) {
+  if (!site.seo.indexable) return [];
+
+  const candidates = [
+    site.seo.siteUrl,
+    absoluteUrl("articles/", site.seo.siteUrl),
+    ...allArticles(site)
+      .filter(
+        (article) =>
+          article.indexable &&
+          (!article.canonicalUrl ||
+            article.canonicalUrl ===
+              absoluteUrl(
+                "articles/" + encodeURIComponent(article.slug) + "/",
+                site.seo.siteUrl,
+              )),
       )
-      .join("\n") +
-    "\n</urlset>\n"
+      .map((article) =>
+        absoluteUrl(
+          "articles/" + encodeURIComponent(article.slug) + "/",
+          site.seo.siteUrl,
+        ),
+      ),
+  ].filter(Boolean);
+
+  return [...new Set(candidates)];
+}
+
+export function sitemap(site: SiteDocument) {
+  const articleDates = new Map(
+    allArticles(site)
+      .filter((article) => article.indexable)
+      .map((article) => [
+        absoluteUrl(
+          "articles/" + encodeURIComponent(article.slug) + "/",
+          site.seo.siteUrl,
+        ),
+        article.updatedDate || article.date,
+      ]),
   );
+
+  const entries = sitemapUrls(site)
+    .map((url) => {
+      const date = articleDates.get(url) || "";
+      const lastmod = /^\d{4}-\d{2}-\d{2}$/.test(date)
+        ? `\n    <lastmod>${date}</lastmod>`
+        : "";
+
+      return `  <url>\n    <loc>${xmlEscape(url)}</loc>${lastmod}\n  </url>`;
+    })
+    .join("\n");
+
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    entries,
+    "</urlset>",
+    "",
+  ].join("\n");
+}
+
+export function sitemapText(site: SiteDocument) {
+  const urls = sitemapUrls(site);
+  return urls.length ? urls.join("\n") + "\n" : "";
 }
