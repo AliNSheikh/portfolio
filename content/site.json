@@ -1350,7 +1350,7 @@
           "subtitle": "",
           "description": "Google Digital Academy (Skillshop)\n\n",
           "body": "",
-          "image": "https://media.licdn.com/dms/image/v2/D4D2DAQEe7PYKgMNLIA/profile-treasury-document-images_1280/B4DaBs8dXfI4Ak-/1/1788534184761?e=1789603200&v=beta&t=Pt8_kRZWvur76oXb4CLHrjBXybPNH2owamyY07GLhsU",
+          "image": "uploads/Analytics-1-page-0001-ee7b51e5-20e0-4bb3-a18f-0b7fcb486b84.jpg",
           "imageAlt": "Google Analytics Certification (2026)",
           "url": "https://skillshop.credential.net/693a5f0a-8626-492c-b57b-b003c7d274f4",
           "buttonLabel": "View Credential ",
@@ -1386,7 +1386,7 @@
           "subtitle": "",
           "description": "Google Digital Academy (Skillshop)\n\n",
           "body": "",
-          "image": "https://media.licdn.com/dms/image/v2/D4D2DAQGknItuT0EbPg/profile-treasury-document-images_1280/B4DaBnXjgiKoAg-/1/1788440624443?e=1789603200&v=beta&t=ny8G43k4Z1iwMv8yOTPQkY5D9n9t7lIfp8I7BomFE7w",
+          "image": "uploads/AI-Powered-Performance-Ads-Certification-page-0001-5f20707f-c166-434d-b823-58b4aea261a2.jpg",
           "imageAlt": "AI-Powered Performance Ads Certification",
           "url": "https://skillshop.credential.net/620054fa-2eda-4d30-8516-2d63c162631a",
           "buttonLabel": "View Credential ",
@@ -1639,6 +1639,22 @@
       "path": "uploads/1631341346110-97b7d14c-303b-4e13-b713-ee858aacceca.jpg",
       "type": "image/jpeg",
       "size": 14696,
+      "alt": ""
+    },
+    {
+      "id": "media-64eb026e-06f",
+      "name": "Analytics (1)_page-0001.jpg",
+      "path": "uploads/Analytics-1-page-0001-ee7b51e5-20e0-4bb3-a18f-0b7fcb486b84.jpg",
+      "type": "image/jpeg",
+      "size": 258133,
+      "alt": ""
+    },
+    {
+      "id": "media-21544195-8d4",
+      "name": "AI-Powered Performance Ads Certification_page-0001.jpg",
+      "path": "uploads/AI-Powered-Performance-Ads-Certification-page-0001-5f20707f-c166-434d-b823-58b4aea261a2.jpg",
+      "type": "image/jpeg",
+      "size": 261426,
       "alt": ""
     }
   ]
