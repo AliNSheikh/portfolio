@@ -945,7 +945,65 @@
       "showInNav": true,
       "navLabel": "Results",
       "layout": "grid",
-      "items": []
+      "items": [
+        {
+          "id": "item-27e76ea6-300",
+          "title": "Leads Campaign",
+          "subtitle": "",
+          "description": "",
+          "body": "",
+          "image": "uploads/CPM-84f2eb64-2a39-41a8-8f40-68b5afe730fa.jpg",
+          "imageAlt": "campaign results",
+          "url": "",
+          "buttonLabel": "",
+          "icon": "sparkles",
+          "status": "published",
+          "featured": true,
+          "company": "Sada Media",
+          "location": "",
+          "startDate": "",
+          "endDate": "",
+          "current": false,
+          "issuer": "",
+          "issueDate": "",
+          "credentialId": "",
+          "platform": "Meta",
+          "period": "26/2/2026 - Present",
+          "role": "",
+          "category": "",
+          "slug": "",
+          "date": "",
+          "updatedDate": "",
+          "seoTitle": "",
+          "seoDescription": "",
+          "canonicalUrl": "",
+          "socialImage": "",
+          "indexable": true,
+          "previewMode": "image",
+          "metrics": [
+            {
+              "label": "Results",
+              "value": "354",
+              "unit": ""
+            },
+            {
+              "label": "Cost Per Result",
+              "value": "12.99",
+              "unit": ""
+            },
+            {
+              "label": "Impressions",
+              "value": "189,900",
+              "unit": ""
+            },
+            {
+              "label": "Reach",
+              "value": "41,108",
+              "unit": ""
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "work",
@@ -2183,6 +2241,14 @@
       "path": "uploads/622078670-18067880681547569-2958255622630637657-n-39e4fdaf-b213-4ab1-b502-685e558673ae.jpg",
       "type": "image/jpeg",
       "size": 133288,
+      "alt": ""
+    },
+    {
+      "id": "media-9b707678-29c",
+      "name": "CPM.jpg",
+      "path": "uploads/CPM-84f2eb64-2a39-41a8-8f40-68b5afe730fa.jpg",
+      "type": "image/jpeg",
+      "size": 171042,
       "alt": ""
     }
   ]
