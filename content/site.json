@@ -952,7 +952,7 @@
           "subtitle": "",
           "description": "",
           "body": "",
-          "image": "uploads/Untitled-design-1444b039-f9de-40be-b4f6-57b9049d5714.jpg",
+          "image": "uploads/Untitled-design-1-16a0c6ab-812f-4e1d-b734-73b8ee009496.jpg",
           "imageAlt": "campaign results",
           "url": "",
           "buttonLabel": "",
@@ -2244,19 +2244,19 @@
       "alt": ""
     },
     {
-      "id": "media-9b707678-29c",
-      "name": "CPM.jpg",
-      "path": "uploads/CPM-84f2eb64-2a39-41a8-8f40-68b5afe730fa.jpg",
-      "type": "image/jpeg",
-      "size": 171042,
-      "alt": ""
-    },
-    {
       "id": "media-0bf3eda3-4b4",
       "name": "Untitled design.jpg",
       "path": "uploads/Untitled-design-1444b039-f9de-40be-b4f6-57b9049d5714.jpg",
       "type": "image/jpeg",
       "size": 36741,
+      "alt": ""
+    },
+    {
+      "id": "media-f181f1f0-8de",
+      "name": "Untitled design (1).jpg",
+      "path": "uploads/Untitled-design-1-16a0c6ab-812f-4e1d-b734-73b8ee009496.jpg",
+      "type": "image/jpeg",
+      "size": 286663,
       "alt": ""
     }
   ]
