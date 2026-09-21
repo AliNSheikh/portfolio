@@ -952,7 +952,7 @@
           "subtitle": "",
           "description": "",
           "body": "",
-          "image": "uploads/CPM-84f2eb64-2a39-41a8-8f40-68b5afe730fa.jpg",
+          "image": "uploads/Untitled-design-1444b039-f9de-40be-b4f6-57b9049d5714.jpg",
           "imageAlt": "campaign results",
           "url": "",
           "buttonLabel": "",
@@ -2249,6 +2249,14 @@
       "path": "uploads/CPM-84f2eb64-2a39-41a8-8f40-68b5afe730fa.jpg",
       "type": "image/jpeg",
       "size": 171042,
+      "alt": ""
+    },
+    {
+      "id": "media-0bf3eda3-4b4",
+      "name": "Untitled design.jpg",
+      "path": "uploads/Untitled-design-1444b039-f9de-40be-b4f6-57b9049d5714.jpg",
+      "type": "image/jpeg",
+      "size": 36741,
       "alt": ""
     }
   ]
