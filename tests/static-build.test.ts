@@ -46,7 +46,8 @@ test("a complete production build creates article HTML and excludes drafts; dele
           await readFile(join(root, "tests/fixtures/site.json"), "utf8"),
         ),
       ),
-      section = document.sections.find((s) => s.type === "articles")!;
+      section = document.sections.find((s) => s.type === "articles")!,
+      campaigns = document.sections.find((s) => s.type === "campaigns")!;
     document.profile.image = "";
     document.profile.cv = "";
     document.profile.secondaryAction.visible = false;
@@ -82,6 +83,19 @@ test("a complete production build creates article HTML and excludes drafts; dele
         status: "draft",
       },
     ];
+    campaigns.items = [
+      {
+        ...newItem(),
+        title: "Build verification campaign",
+        slug: "build-campaign",
+        description: "Campaign metadata verification.",
+        body: "Full campaign content for crawlers.",
+        seoTitle: "Campaign SEO title",
+        seoDescription: "A campaign metadata verification.",
+        metrics: [{ label: "Leads", value: "64", unit: "" }],
+        date: "2026-09-08",
+      },
+    ];
     const hidden = newSection("custom");
     hidden.visible = false;
     hidden.description = "HIDDEN-LEAK-SENTINEL";
@@ -113,9 +127,21 @@ test("a complete production build creates article HTML and excludes drafts; dele
       /https:\/\/alinsheikh.github.io\/portfolio\/articles\/build-verification\//,
     );
     await access(join(directory, "dist/articles/دليل-التسويق/index.html"));
+    const campaign = await readFile(
+      join(directory, "dist/build-campaign/index.html"),
+      "utf8",
+    );
+    assert.match(campaign, /<title>Campaign SEO title<\/title>/);
+    assert.match(campaign, /Campaign metadata verification/);
+    assert.match(campaign, /Full campaign content for crawlers/);
+    assert.match(
+      campaign,
+      /https:\/\/alinsheikh.github.io\/portfolio\/build-campaign\//,
+    );
     const home = await readFile(join(directory, "dist/index.html"), "utf8");
     assert.ok(!home.includes("<!--app-->"));
     assert.match(home, /href="\/portfolio\/articles\/build-verification\/"/);
+    assert.match(home, /href="\/portfolio\/build-campaign\/"/);
     const admin = await readFile(
       join(directory, "dist/admin/index.html"),
       "utf8",
@@ -146,9 +172,10 @@ test("a complete production build creates article HTML and excludes drafts; dele
       builtSitemap.startsWith('<?xml version="1.0" encoding="UTF-8"?>'),
     );
     assert.match(builtSitemap, /build-verification/);
+    assert.match(builtSitemap, /build-campaign/);
     assert.match(
       await readFile(join(directory, "dist/sitemap.txt"), "utf8"),
-      /build-verification/,
+      /build-campaign/,
     );
     await access(join(directory, "dist/.nojekyll"));
     document.profile.image = "";
@@ -163,6 +190,7 @@ test("a complete production build creates article HTML and excludes drafts; dele
         i.socialImage = "";
       }
     section.items = [];
+    campaigns.items = [];
     await writeFile(
       join(directory, "content/site.json"),
       JSON.stringify(document),
@@ -174,6 +202,14 @@ test("a complete production build creates article HTML and excludes drafts; dele
     assert.ok(
       !(await readFile(join(directory, "dist/sitemap.xml"), "utf8")).includes(
         "build-verification",
+      ),
+    );
+    await assert.rejects(() =>
+      access(join(directory, "dist/build-campaign/index.html")),
+    );
+    assert.ok(
+      !(await readFile(join(directory, "dist/sitemap.xml"), "utf8")).includes(
+        "build-campaign",
       ),
     );
   } finally {

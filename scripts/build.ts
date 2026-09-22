@@ -4,8 +4,8 @@ import { join } from "node:path";
 import { createElement } from "react";
 import { renderToString } from "react-dom/server";
 import { Portfolio } from "../src/portfolio";
-import { allArticles } from "../src/model";
-import { escapeHtml, localMediaPaths } from "../src/safe";
+import { allArticles, allCampaigns } from "../src/model";
+import { campaignSlug, escapeHtml, localMediaPaths } from "../src/safe";
 import { prepare } from "./prepare";
 import { pageHead, sitemap, sitemapText, type Page } from "./seo";
 
@@ -25,6 +25,10 @@ const pages: Page[] = [
   ...allArticles(site).map((article) => ({
     route: "/articles/" + encodeURIComponent(article.slug) + "/",
     article,
+  })),
+  ...allCampaigns(site).map((campaign) => ({
+    route: "/" + encodeURIComponent(campaignSlug(campaign)) + "/",
+    campaign,
   })),
   { route: "/404/", missing: true },
 ];
@@ -66,5 +70,5 @@ await writeFile(
 );
 await writeFile("dist/.nojekyll", "", "utf8");
 console.log(
-  `Built portfolio, admin panel, and ${allArticles(site).length} published article pages. No drafts are copied into dist.`,
+  `Built portfolio, admin panel, ${allArticles(site).length} article pages, and ${allCampaigns(site).length} campaign pages. No drafts are copied into dist.`,
 );

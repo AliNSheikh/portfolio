@@ -1,6 +1,7 @@
 import MarkdownIt from "markdown-it";
 import {
   allArticles,
+  allCampaigns,
   siteSchema,
   visibleSections,
   type SiteDocument,
@@ -76,6 +77,15 @@ export function absoluteUrl(path: string, siteUrl: string): string {
 }
 export function articlePath(slug: string, basePath: string) {
   return `${basePath}articles/${encodeURIComponent(slug)}/`;
+}
+export function campaignSlug(item: { slug: string; title: string; id: string }) {
+  return item.slug.trim() || slugify(item.title) || item.id;
+}
+export function campaignPath(
+  item: { slug: string; title: string; id: string },
+  basePath: string,
+) {
+  return `${basePath}${encodeURIComponent(campaignSlug(item))}/`;
 }
 export function slugify(value: string) {
   return value
@@ -225,7 +235,13 @@ export function validateDocument(input: unknown): SiteDocument {
   ];
   for (const section of site.sections)
     for (const item of section.items)
-      urls.push(item.image, item.url, item.socialImage, item.canonicalUrl);
+      urls.push(
+        item.image,
+        ...item.images,
+        item.url,
+        item.socialImage,
+        item.canonicalUrl,
+      );
   if (urls.some((url) => url && !safeUrl(url)))
     throw new Error(
       "Use a valid https URL, a site anchor, or an uploaded file. Script and unsafe URLs are not allowed.",
@@ -260,6 +276,19 @@ export function validateDocument(input: unknown): SiteDocument {
     if (slugs.has(article.slug))
       throw new Error("Each published article needs its own unique URL slug.");
     slugs.add(article.slug);
+  }
+  const campaignSlugs = new Set<string>();
+  for (const campaign of allCampaigns(site)) {
+    const slug = campaignSlug(campaign);
+    if (!/^[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*$/u.test(slug))
+      throw new Error(
+        "Published campaigns need a URL slug made of words separated by hyphens.",
+      );
+    if (["admin", "articles", "404"].includes(slug))
+      throw new Error("Campaign slugs cannot use reserved page paths.");
+    if (campaignSlugs.has(slug))
+      throw new Error("Each published campaign needs its own unique URL slug.");
+    campaignSlugs.add(slug);
   }
   for (const section of site.sections)
     for (const item of section.items) {

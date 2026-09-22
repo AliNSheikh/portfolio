@@ -1,29 +1,49 @@
-import { allArticles, type ContentItem, type SiteDocument } from "../src/model";
-import { absoluteUrl, escapeHtml, excerpt } from "../src/safe";
-export type Page = { route: string; article?: ContentItem; missing?: boolean };
+import {
+  allArticles,
+  allCampaigns,
+  type ContentItem,
+  type SiteDocument,
+} from "../src/model";
+import { absoluteUrl, campaignSlug, escapeHtml, excerpt } from "../src/safe";
+export type Page = {
+  route: string;
+  article?: ContentItem;
+  campaign?: ContentItem;
+  missing?: boolean;
+};
 export function pageHead(site: SiteDocument, page: Page) {
   const a = page.article,
+    c = page.campaign,
     home = page.route === "/",
-    title = a
-      ? a.seoTitle || site.seo.titleTemplate.replaceAll("{title}", a.title)
+    item = a || c,
+    title = item
+      ? item.seoTitle ||
+        site.seo.titleTemplate.replaceAll("{title}", item.title)
       : home
         ? site.branding.title
         : site.seo.titleTemplate.replaceAll(
             "{title}",
             page.missing ? "Page not found" : "Articles",
           );
-  const description = a
-    ? a.seoDescription || a.description || excerpt(a.body)
+  const description = item
+    ? item.seoDescription || item.description || excerpt(item.body)
     : site.branding.description;
   const canonical =
     a?.canonicalUrl ||
+    c?.canonicalUrl ||
     absoluteUrl(page.route.replace(/^\//, ""), site.seo.siteUrl);
   const image =
     a?.socialImage ||
     a?.image ||
+    c?.socialImage ||
+    c?.image ||
     site.branding.socialImage ||
     site.profile.image;
-  const indexable = site.seo.indexable && !page.missing && (!a || a.indexable);
+  const indexable =
+    site.seo.indexable &&
+    !page.missing &&
+    (!a || a.indexable) &&
+    (!c || c.indexable);
   const tag = (name: string, value: string, property = false) =>
     `<meta ${property ? "property" : "name"}="${name}" content="${escapeHtml(value)}">`;
   const schema: Record<string, unknown> = a
@@ -44,6 +64,21 @@ export function pageHead(site: SiteDocument, page: Page) {
           : {}),
         ...(image ? { image: [absoluteUrl(image, site.seo.siteUrl)] } : {}),
       }
+    : c
+      ? {
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          name: c.title,
+          description,
+          url: canonical,
+          creator: {
+            "@type": "Person",
+            name: site.profile.name,
+            url: site.seo.siteUrl,
+          },
+          ...(c.platform ? { genre: c.platform } : {}),
+          ...(image ? { image: absoluteUrl(image, site.seo.siteUrl) } : {}),
+        }
     : {
         "@context": "https://schema.org",
         "@type": "Person",
@@ -93,9 +128,26 @@ function xmlEscape(value: string) {
 export function sitemapUrls(site: SiteDocument) {
   if (!site.seo.indexable) return [];
 
+  const campaignUrls = allCampaigns(site)
+    .filter((campaign) => {
+      if (!campaign.indexable) return false;
+      const canonical = absoluteUrl(
+        encodeURIComponent(campaignSlug(campaign)) + "/",
+        site.seo.siteUrl,
+      );
+      return !campaign.canonicalUrl || campaign.canonicalUrl === canonical;
+    })
+    .map((campaign) =>
+      absoluteUrl(
+        encodeURIComponent(campaignSlug(campaign)) + "/",
+        site.seo.siteUrl,
+      ),
+    );
+
   const candidates = [
     site.seo.siteUrl,
     absoluteUrl("articles/", site.seo.siteUrl),
+    ...campaignUrls,
     ...allArticles(site)
       .filter(
         (article) =>
@@ -130,10 +182,21 @@ export function sitemap(site: SiteDocument) {
         article.updatedDate || article.date,
       ]),
   );
+  const campaignDates = new Map(
+    allCampaigns(site)
+      .filter((campaign) => campaign.indexable)
+      .map((campaign) => [
+        absoluteUrl(
+          encodeURIComponent(campaignSlug(campaign)) + "/",
+          site.seo.siteUrl,
+        ),
+        campaign.updatedDate || campaign.date,
+      ]),
+  );
 
   const entries = sitemapUrls(site)
     .map((url) => {
-      const date = articleDates.get(url) || "";
+      const date = articleDates.get(url) || campaignDates.get(url) || "";
       const lastmod = /^\d{4}-\d{2}-\d{2}$/.test(date)
         ? `\n    <lastmod>${date}</lastmod>`
         : "";

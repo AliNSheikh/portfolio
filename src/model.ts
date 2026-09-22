@@ -32,6 +32,7 @@ export const itemSchema = z.object({
   body: text.default(""),
   image: short.default(""),
   imageAlt: short.default(""),
+  images: z.array(short).max(30).default([]),
   url: short.default(""),
   buttonLabel: short.default(""),
   icon: short.default("sparkles"),
@@ -225,6 +226,11 @@ export function publicDocument(document: SiteDocument): SiteDocument {
 export function allArticles(site: SiteDocument) {
   return site.sections
     .filter((s) => s.visible && s.type === "articles")
+    .flatMap((s) => s.items.filter((i) => i.status === "published"));
+}
+export function allCampaigns(site: SiteDocument) {
+  return site.sections
+    .filter((s) => s.visible && s.type === "campaigns")
     .flatMap((s) => s.items.filter((i) => i.status === "published"));
 }
 export function visibleSections(site: SiteDocument) {

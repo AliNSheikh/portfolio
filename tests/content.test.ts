@@ -98,31 +98,48 @@ test("certificate image and button share the verification URL", () => {
   );
   assert.match(html, /View certificate/);
 });
-test("campaign cards render images before actual text and metrics; website buttons remain links", () => {
+test("campaign cards stay compact while campaign pages show full details; website buttons remain links", () => {
   const doc = clone(seed);
   doc.sections
     .find((s) => s.type === "campaigns")!
     .items.push({
       ...newItem(),
       title: "Test campaign",
+      slug: "test-campaign",
       image: "uploads/test-result.png",
+      images: ["uploads/test-detail.png"],
       description: "Actual result narrative",
+      platform: "Meta Ads",
+      company: "Test client",
+      period: "Q1 2026",
+      body: "Detailed campaign body",
       metrics: [{ label: "Leads", value: "45", unit: "" }],
     });
-  const html = renderToString(
+  const home = renderToString(
     createElement(Portfolio, {
       document: doc,
       basePath: "/portfolio/",
       preview: true,
     }),
   );
-  assert.ok(
-    html.indexOf("uploads/test-result.png") <
-      html.indexOf("Actual result narrative"),
+  assert.match(home, /uploads\/test-result\.png/);
+  assert.match(home, /href="\/portfolio\/test-campaign\/"/);
+  assert.match(home, /<dd>45/);
+  assert.ok(!home.includes("Actual result narrative"));
+  const campaign = renderToString(
+    createElement(Portfolio, {
+      document: doc,
+      basePath: "/portfolio/",
+      route: "/test-campaign/",
+      preview: true,
+    }),
   );
-  assert.match(html, /<dd>45/);
-  assert.match(html, /Visit Website/);
-  assert.match(html, /https:\/\/www.matthiolaflowers.com\//);
+  assert.match(campaign, /Actual result narrative/);
+  assert.match(campaign, /Detailed campaign body/);
+  assert.match(campaign, /uploads\/test-detail\.png/);
+  assert.match(campaign, /Meta Ads/);
+  assert.match(home, /Visit Website/);
+  assert.match(home, /https:\/\/www.matthiolaflowers.com\//);
 });
 test("all public contact URLs and base-path links resolve correctly", () => {
   assert.match(

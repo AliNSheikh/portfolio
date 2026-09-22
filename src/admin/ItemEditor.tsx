@@ -131,6 +131,8 @@ export function ItemEditor({
                         ? "Person’s photo"
                         : isTimeline
                           ? "Company / institution logo"
+                          : type === "campaigns"
+                            ? "Campaign cover image"
                           : "Cover / preview image"
                 }
                 value={item.image}
@@ -262,6 +264,103 @@ export function ItemEditor({
             )}
           </div>
         </Card>
+        {type === "campaigns" && (
+          <Card
+            title="Campaign page"
+            description="Each published campaign gets its own public page at the root of your portfolio URL."
+          >
+            <div className="form-grid">
+              {field("slug", "Page URL slug", {
+                hint: "Example: leads-campaign becomes /portfolio/leads-campaign/.",
+              })}
+              <div className="field-action">
+                <button
+                  className="admin-button small"
+                  onClick={() => onChange({ slug: slugify(item.title) })}
+                >
+                  Generate from title
+                </button>
+              </div>
+              {field("seoTitle", "SEO title", {
+                hint: "Leave empty to use your title template.",
+              })}
+              {field("seoDescription", "Meta description", {
+                area: true,
+                hint: "Leave empty to use the campaign description.",
+              })}
+              <Toggle
+                label="Allow search engines to index this campaign page"
+                checked={item.indexable}
+                onChange={(v) => onChange({ indexable: v })}
+              />
+            </div>
+            <div className="search-preview">
+              <span>
+                {siteUrl}
+                {encodeURIComponent(item.slug || slugify(item.title) || item.id)}
+                /
+              </span>
+              <strong>{item.seoTitle || item.title || "Campaign title"}</strong>
+              <p>
+                {item.seoDescription ||
+                  item.description ||
+                  "Your campaign description will appear here."}
+              </p>
+            </div>
+          </Card>
+        )}
+        {type === "campaigns" && (
+          <Card
+            title="Campaign images"
+            description="Use the cover image above for the homepage card. Add supporting images here for the campaign detail page."
+            actions={
+              <button
+                className="admin-button small"
+                disabled={item.images.length >= 30}
+                onClick={() => onChange({ images: [...item.images, ""] })}
+              >
+                <Plus size={15} />
+                Add image
+              </button>
+            }
+          >
+            {!item.images.length && (
+              <p className="empty-inline">
+                No extra images yet. The cover image still appears on the
+                campaign page.
+              </p>
+            )}
+            <div className="campaign-image-editor-list">
+              {item.images.map((path, index) => (
+                <div className="campaign-image-editor" key={index}>
+                  <MediaField
+                    label={`Supporting image ${index + 1}`}
+                    value={path}
+                    onChange={(v) =>
+                      onChange({
+                        images: item.images.map((x, i) =>
+                          i === index ? v : x,
+                        ),
+                      })
+                    }
+                    tools={tools}
+                  />
+                  <button
+                    className="icon-button danger"
+                    aria-label="Remove supporting image"
+                    onClick={() =>
+                      onChange({
+                        images: item.images.filter((_, i) => i !== index),
+                      })
+                    }
+                  >
+                    <Trash2 size={17} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </Card>
+        )}
         {type === "campaigns" && (
           <Card
             title="Campaign results"

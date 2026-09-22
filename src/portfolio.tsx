@@ -16,6 +16,7 @@ import {
 import { Icon } from "./icons";
 import {
   allArticles,
+  allCampaigns,
   publicDocument,
   visibleSections,
   type ContentItem,
@@ -26,6 +27,8 @@ import {
   actionUrl,
   articlePath,
   assetUrl,
+  campaignPath,
+  campaignSlug,
   contactUrl,
   dateLabel,
   isInstagramUrl,
@@ -389,7 +392,7 @@ function Certificates({ items }: { items: ContentItem[] }) {
   );
 }
 function Campaigns({ items }: { items: ContentItem[] }) {
-  const { site, image } = useSite();
+  const { site, image, basePath } = useSite();
   return (
     <div className="campaign-grid">
       {items.map((i) => (
@@ -397,49 +400,188 @@ function Campaigns({ items }: { items: ContentItem[] }) {
           className={"campaign-card " + (i.featured ? "featured" : "")}
           key={i.id}
         >
-          {i.image && (
-            <a
-              href={image(i.image)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="campaign-image"
-              aria-label={`Open result image for ${i.title}`}
-            >
-              <img
-                src={image(i.image)}
-                alt={i.imageAlt || i.title}
-                loading="lazy"
-              />
-            </a>
-          )}
-          <div className="card-body">
-            <p className="card-meta">
-              {[i.platform, i.company, i.period].filter(Boolean).join(" · ")}
-            </p>
-            <h3 dir="auto">{i.title}</h3>
-            <p dir="auto">{i.description}</p>
-            <RichText text={i.body} />
-            {i.metrics.length > 0 && (
-              <dl className="metrics">
-                {i.metrics.map((m, j) => (
-                  <div key={j}>
-                    <dd>
-                      {m.value}
-                      <span>{m.unit}</span>
-                    </dd>
-                    <dt>{m.label}</dt>
-                  </div>
-                ))}
-              </dl>
+          <a
+            href={campaignPath(i, basePath)}
+            className="campaign-summary-link"
+            aria-label={`${label(site, "viewCampaign", "View campaign")} ${i.title}`}
+          >
+            {i.image ? (
+              <span className="campaign-image">
+                <img
+                  src={image(i.image)}
+                  alt={i.imageAlt || i.title}
+                  loading="lazy"
+                />
+              </span>
+            ) : (
+              <span className="campaign-image project-icon">
+                <Icon name="megaphone" size={42} />
+              </span>
             )}
-            {i.url && (
-              <OutLink href={i.url} className="text-link">
-                {i.buttonLabel || label(site, "viewResult", "View result")}
+            <span className="card-body campaign-summary">
+              <span className="campaign-summary-title" dir="auto">
+                {i.title}
+              </span>
+              {i.metrics.length > 0 && (
+                <dl className="metrics compact-metrics">
+                  {i.metrics.slice(0, 3).map((m, j) => (
+                    <div key={j}>
+                      <dd>
+                        {m.value}
+                        <span>{m.unit}</span>
+                      </dd>
+                      <dt>{m.label}</dt>
+                    </div>
+                  ))}
+                </dl>
+              )}
+              <span className="text-link campaign-summary-cta">
+                {i.buttonLabel || label(site, "viewCampaign", "View campaign")}
                 <ArrowUpRight size={16} />
-              </OutLink>
-            )}
-          </div>
+              </span>
+            </span>
+          </a>
         </article>
+      ))}
+    </div>
+  );
+}
+function CampaignPage({ campaign }: { campaign: ContentItem }) {
+  const { site, basePath, image } = useSite();
+  const campaignSection =
+    site.sections.find((section) => section.type === "campaigns")?.id ||
+    "results";
+  const gallery = [
+    campaign.image,
+    ...campaign.images.filter((path) => path !== campaign.image),
+  ].filter(Boolean);
+  return (
+    <main id="main" className="campaign-page site-width">
+      <a className="text-link" href={basePath + "#" + campaignSection}>
+        <ArrowLeft size={16} />
+        {label(site, "backToCampaigns", "Back to campaign results")}
+      </a>
+      <header className="campaign-page-header">
+        <p className="eyebrow">
+          {campaign.platform || campaign.category || "Campaign"}
+        </p>
+        <h1 dir="auto">{campaign.title}</h1>
+        {campaign.description && (
+          <p className="article-deck" dir="auto">
+            {campaign.description}
+          </p>
+        )}
+        <dl className="campaign-facts">
+          {[
+            [label(site, "campaignType", "Type"), campaign.platform],
+            [label(site, "campaignClient", "Client"), campaign.company],
+            [label(site, "campaignPeriod", "Period"), campaign.period],
+          ]
+            .filter(([, value]) => value)
+            .map(([name, value]) => (
+              <div key={name}>
+                <dt>{name}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+        </dl>
+      </header>
+      <div className="campaign-page-layout">
+        <div>
+          {gallery[0] && (
+            <img
+              className="campaign-hero-image"
+              src={image(gallery[0])}
+              alt={campaign.imageAlt || campaign.title}
+            />
+          )}
+          {gallery.length > 1 && (
+            <div className="campaign-gallery">
+              {gallery.slice(1).map((path, index) => (
+                <img
+                  src={image(path)}
+                  alt={`${campaign.title} ${index + 2}`}
+                  loading="lazy"
+                  key={path}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+        <aside className="campaign-detail-panel">
+          <h2>{label(site, "campaignStats", "Key statistics")}</h2>
+          {campaign.metrics.length > 0 ? (
+            <dl className="metrics campaign-page-metrics">
+              {campaign.metrics.map((m, j) => (
+                <div key={j}>
+                  <dd>
+                    {m.value}
+                    <span>{m.unit}</span>
+                  </dd>
+                  <dt>{m.label}</dt>
+                </div>
+              ))}
+            </dl>
+          ) : (
+            <p>{label(site, "noCampaignStats", "Statistics coming soon.")}</p>
+          )}
+          {campaign.url && (
+            <OutLink href={campaign.url} className="site-button primary">
+              {campaign.buttonLabel ||
+                label(site, "viewResult", "View result")}
+              <ArrowUpRight size={16} />
+            </OutLink>
+          )}
+        </aside>
+      </div>
+      <RichText text={campaign.body} className="article-prose" />
+    </main>
+  );
+}
+function ClientLogo({ item: i }: { item: ContentItem }) {
+  const { image } = useSite();
+  return i.url ? (
+    <OutLink href={i.url} className="client-logo">
+      {i.image ? (
+        <img src={image(i.image)} alt={i.imageAlt || i.title} loading="lazy" />
+      ) : (
+        <span>{i.title}</span>
+      )}
+    </OutLink>
+  ) : (
+    <span className="client-logo">
+      {i.image ? (
+        <img src={image(i.image)} alt={i.imageAlt || i.title} loading="lazy" />
+      ) : (
+        <span>{i.title}</span>
+      )}
+    </span>
+  );
+}
+function chunkClients(items: ContentItem[]) {
+  if (!items.length) return [];
+  const rowCount = Math.max(3, Math.ceil(items.length / 5));
+  return Array.from({ length: rowCount }, (_, row) =>
+    Array.from(
+      { length: 5 },
+      (_, column) => items[(row * 5 + column) % items.length],
+    ),
+  );
+}
+function Clients({ items }: { items: ContentItem[] }) {
+  const rows = chunkClients(items);
+  return (
+    <div className="client-marquee" aria-label="Collaborations">
+      {rows.map((row, rowIndex) => (
+        <div className="client-marquee-row" key={rowIndex}>
+          <div className="client-track">
+            {[...row, ...row].map((item, index) => (
+              <div className="client-cell" key={`${rowIndex}-${index}`}>
+                <ClientLogo item={item} />
+              </div>
+            ))}
+          </div>
+        </div>
       ))}
     </div>
   );
@@ -584,38 +726,6 @@ function InstagramCard({ item: i }: { item: ContentItem }) {
         )}
       </div>
     </article>
-  );
-}
-function Clients({ items }: { items: ContentItem[] }) {
-  const { image } = useSite();
-  return (
-    <div className="client-grid">
-      {items.map((i) => (
-        <div className="client-cell" key={i.id}>
-          {i.url ? (
-            <OutLink href={i.url}>
-              {i.image ? (
-                <img
-                  src={image(i.image)}
-                  alt={i.imageAlt || i.title}
-                  loading="lazy"
-                />
-              ) : (
-                <span>{i.title}</span>
-              )}
-            </OutLink>
-          ) : i.image ? (
-            <img
-              src={image(i.image)}
-              alt={i.imageAlt || i.title}
-              loading="lazy"
-            />
-          ) : (
-            <span>{i.title}</span>
-          )}
-        </div>
-      ))}
-    </div>
   );
 }
 export function ArticleCards({ items }: { items: ContentItem[] }) {
@@ -995,16 +1105,20 @@ export function Portfolio({
   const site = publicDocument(document);
   const sections = visibleSections(site);
   let article: ContentItem | undefined;
+  let campaign: ContentItem | undefined;
   let routeSlug = "";
   try {
-    routeSlug = decodeURIComponent(
-      route.replace(/^\/articles\//, "").replace(/\/$/, ""),
-    );
+    const cleanRoute = decodeURIComponent(route.replace(/\/$/, ""));
+    routeSlug = route.startsWith("/articles/")
+      ? cleanRoute.replace(/^\/articles\//, "")
+      : cleanRoute.replace(/^\//, "");
   } catch {
     /* 404 */
   }
   if (route.startsWith("/articles/") && route !== "/articles/")
     article = allArticles(site).find((i) => i.slug === routeSlug);
+  if (!article && !route.startsWith("/articles/") && route !== "/")
+    campaign = allCampaigns(site).find((i) => campaignSlug(i) === routeSlug);
   const style = {
     "--site-bg": site.appearance.background,
     "--site-accent": site.appearance.accent,
@@ -1059,6 +1173,8 @@ export function Portfolio({
           <ArticlesPage />
         ) : article ? (
           <ArticlePage article={article} />
+        ) : campaign ? (
+          <CampaignPage campaign={campaign} />
         ) : (
           <MissingPage />
         )}

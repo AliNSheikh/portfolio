@@ -1050,6 +1050,16 @@ label[for] {
   align-items: end;
   margin-bottom: 17px;
 }
+.campaign-image-editor-list {
+  display: grid;
+  gap: 14px;
+}
+.campaign-image-editor {
+  display: grid;
+  grid-template-columns: 1fr 34px;
+  gap: 12px;
+  align-items: start;
+}
 .empty-inline {
   color: #98a399;
   font-size: 12px;
