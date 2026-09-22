@@ -4,6 +4,7 @@ import data from "./generated/public-data.json";
 import project from "../project.config.json";
 import { siteSchema } from "./model";
 import "./site.css";
+import "./responsive-grids.css";
 const site = siteSchema.parse(data);
 const path = window.location.pathname;
 const base = project.basePath;
