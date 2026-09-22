@@ -984,7 +984,7 @@
             {
               "label": "Results",
               "value": "354",
-              "unit": ""
+              "unit": "Messages"
             },
             {
               "label": "Cost Per Result",
@@ -1039,9 +1039,9 @@
           "previewMode": "image",
           "metrics": [
             {
-              "label": "Results(Clicks)",
+              "label": "Results",
               "value": "3,503",
-              "unit": ""
+              "unit": "Clicks"
             },
             {
               "label": "Cost Per Result",
