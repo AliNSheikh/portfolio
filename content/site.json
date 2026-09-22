@@ -989,7 +989,7 @@
             {
               "label": "Cost Per Result",
               "value": "12.99",
-              "unit": ""
+              "unit": "AED"
             },
             {
               "label": "Impressions",
@@ -999,6 +999,63 @@
             {
               "label": "Reach",
               "value": "41,108",
+              "unit": ""
+            }
+          ]
+        },
+        {
+          "id": "item-e7d3e65c-c4f",
+          "title": "Followers Campaign ",
+          "subtitle": "",
+          "description": "",
+          "body": "**Snapchat Follower Growth Campaign – Fitness Bridge Gym**\nA performance-driven Snapchat advertising campaign designed to increase Fitness Bridge Gym’s follower base in Sharjah and strengthen local brand awareness. Across the campaign period, the campaigns generated 176,441 paid impressions, 22,582 2-second video views, and 6,589 15-second video views, with an average CTR of 1.99%. The campaigns contributed to approximately +2,000 new followers, demonstrating strong audience reach and engagement within the target market.",
+          "image": "uploads/file-0000000049e882118c4f955302372375-d1f191de-5918-4006-a75c-eb125a44cb69.png",
+          "imageAlt": "campaign results",
+          "url": "https://docs.google.com/spreadsheets/d/1efdw4QKXZ8MlqP6n6K8gJT0T-egcfGXf/edit?usp=sharing&ouid=104834323443624888316&rtpof=true&sd=true",
+          "buttonLabel": "View Report",
+          "icon": "sparkles",
+          "status": "published",
+          "featured": true,
+          "company": "Fitness Bridge GYM",
+          "location": "",
+          "startDate": "",
+          "endDate": "",
+          "current": false,
+          "issuer": "",
+          "issueDate": "",
+          "credentialId": "",
+          "platform": "SnapChat",
+          "period": "25/01/2026 - Present",
+          "role": "",
+          "category": "",
+          "slug": "",
+          "date": "",
+          "updatedDate": "",
+          "seoTitle": "",
+          "seoDescription": "",
+          "canonicalUrl": "",
+          "socialImage": "",
+          "indexable": true,
+          "previewMode": "image",
+          "metrics": [
+            {
+              "label": "Results(Clicks)",
+              "value": "6,589",
+              "unit": ""
+            },
+            {
+              "label": "Cost Per Result",
+              "value": "0.88",
+              "unit": "AED"
+            },
+            {
+              "label": "Impressions",
+              "value": "176,441",
+              "unit": ""
+            },
+            {
+              "label": "Followers",
+              "value": "+2000",
               "unit": ""
             }
           ]
@@ -2249,6 +2306,14 @@
       "path": "uploads/Untitled-design-1-16a0c6ab-812f-4e1d-b734-73b8ee009496.jpg",
       "type": "image/jpeg",
       "size": 286663,
+      "alt": ""
+    },
+    {
+      "id": "media-bdb04ac9-a20",
+      "name": "file_0000000049e882118c4f955302372375.png",
+      "path": "uploads/file-0000000049e882118c4f955302372375-d1f191de-5918-4006-a75c-eb125a44cb69.png",
+      "type": "image/png",
+      "size": 1087593,
       "alt": ""
     }
   ]
