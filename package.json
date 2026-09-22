@@ -14,10 +14,11 @@
     "test": "node --import tsx --test tests/*.test.ts"
   },
   "dependencies": {
-    "react": "19.2.8",
-    "react-dom": "19.2.8",
     "lucide-react": "^1.31.0",
     "markdown-it": "^14.1.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "read-excel-file": "^9.3.10",
     "zod": "^3.25.76"
   },
   "devDependencies": {

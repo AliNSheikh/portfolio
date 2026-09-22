@@ -39,7 +39,7 @@ type Commit = { sha: string; tree: { sha: string } };
 const publishedPath = "content/site.json",
   draftPath = "content/draft.json";
 export const uploadPath =
-  /^public\/uploads\/[a-zA-Z0-9][a-zA-Z0-9._-]{0,160}\.(?:png|jpe?g|webp|gif|ico|pdf)$/;
+  /^public\/uploads\/[a-zA-Z0-9][a-zA-Z0-9._-]{0,160}\.(?:png|jpe?g|webp|gif|ico|pdf|xlsx)$/;
 export function encodeText(value: string) {
   const bytes = new TextEncoder().encode(value);
   let binary = "";

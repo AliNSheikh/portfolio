@@ -941,15 +941,12 @@ img {
   width: 100%;
   max-height: 65px;
   object-fit: contain;
-  filter: grayscale(1);
-  opacity: 0.75;
-  transition:
-    filter 0.2s,
-    opacity 0.2s;
+  opacity: 1;
+  transform: scale(1);
+  transition: transform 0.2s ease;
 }
 .client-cell:hover img {
-  filter: none;
-  opacity: 1;
+  transform: scale(1.12);
 }
 .client-cell > span {
   font-family: var(--serif);

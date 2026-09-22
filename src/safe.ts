@@ -238,6 +238,7 @@ export function validateDocument(input: unknown): SiteDocument {
       urls.push(
         item.image,
         ...item.images,
+        item.statsFile,
         item.url,
         item.socialImage,
         item.canonicalUrl,

@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Plus, Trash2, X } from "lucide-react";
 import type { ContentItem, SectionType } from "../model";
 import { slugify } from "../safe";
+import { spreadsheetAccept } from "./media";
 import {
   Card,
   IconField,
@@ -359,6 +360,26 @@ export function ItemEditor({
                 </div>
               ))}
             </div>
+          </Card>
+        )}
+        {type === "campaigns" && (
+          <Card
+            title="Campaign statistics spreadsheet"
+            description="Upload an XLSX file with the full campaign statistics. The first worksheet appears as a responsive table on the campaign page."
+          >
+            <MediaField
+              label="Full statistics XLSX"
+              value={item.statsFile}
+              onChange={(v) => onChange({ statsFile: v })}
+              tools={tools}
+              accept={spreadsheetAccept}
+              mediaFilter={(m) =>
+                m.type ===
+                  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+                m.path.toLowerCase().endsWith(".xlsx")
+              }
+              placeholder="uploads/campaign-statistics.xlsx"
+            />
           </Card>
         )}
         {type === "campaigns" && (

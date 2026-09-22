@@ -393,6 +393,7 @@ function Certificates({ items }: { items: ContentItem[] }) {
 }
 function Campaigns({ items }: { items: ContentItem[] }) {
   const { site, image, basePath } = useSite();
+  const detailsLabel = label(site, "viewFullDetails", "View Full Details");
   return (
     <div className="campaign-grid">
       {items.map((i) => (
@@ -403,7 +404,7 @@ function Campaigns({ items }: { items: ContentItem[] }) {
           <a
             href={campaignPath(i, basePath)}
             className="campaign-summary-link"
-            aria-label={`${label(site, "viewCampaign", "View campaign")} ${i.title}`}
+            aria-label={`${detailsLabel}: ${i.title}`}
           >
             {i.image ? (
               <span className="campaign-image">
@@ -435,8 +436,8 @@ function Campaigns({ items }: { items: ContentItem[] }) {
                   ))}
                 </dl>
               )}
-              <span className="text-link campaign-summary-cta">
-                {i.buttonLabel || label(site, "viewCampaign", "View campaign")}
+              <span className="site-button campaign-summary-cta">
+                {detailsLabel}
                 <ArrowUpRight size={16} />
               </span>
             </span>
@@ -444,6 +445,93 @@ function Campaigns({ items }: { items: ContentItem[] }) {
         </article>
       ))}
     </div>
+  );
+}
+function formatSpreadsheetCell(value: unknown) {
+  if (value === null || value === undefined) return "";
+  if (value instanceof Date)
+    return new Intl.DateTimeFormat("en", { dateStyle: "medium" }).format(value);
+  return String(value).trim();
+}
+function CampaignSpreadsheet({ path }: { path: string }) {
+  const { site, image } = useSite();
+  const [state, setState] = useState<{
+    status: "loading" | "ready" | "error";
+    rows: string[][];
+    error: string;
+  }>({ status: "loading", rows: [], error: "" });
+  const src = image(path);
+  useEffect(() => {
+    let cancelled = false;
+    setState({ status: "loading", rows: [], error: "" });
+    void (async () => {
+      const response = await fetch(src);
+      if (!response.ok) throw new Error("Unable to load the spreadsheet.");
+      const blob = await response.blob();
+      const { readSheet } = await import("read-excel-file/browser");
+      const parsedRows = await readSheet(blob);
+      const rows = parsedRows
+        .map((row) => row.map(formatSpreadsheetCell))
+        .filter((row) => row.some(Boolean))
+        .slice(0, 250);
+      if (!cancelled) setState({ status: "ready", rows, error: "" });
+    })().catch((error) => {
+      if (!cancelled)
+        setState({
+          status: "error",
+          rows: [],
+          error:
+            error instanceof Error
+              ? error.message
+              : "Unable to read the spreadsheet.",
+        });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [src]);
+  const [header, ...body] = state.rows;
+  return (
+    <section className="campaign-spreadsheet" aria-live="polite">
+      <div className="campaign-spreadsheet-heading">
+        <p className="eyebrow">
+          {label(site, "campaignStatsFile", "Campaign report")}
+        </p>
+        <h2>{label(site, "fullCampaignStats", "Full campaign statistics")}</h2>
+      </div>
+      {state.status === "loading" ? (
+        <p className="campaign-table-status">
+          {label(site, "loadingCampaignStats", "Loading campaign statistics…")}
+        </p>
+      ) : state.status === "error" ? (
+        <p className="campaign-table-status">{state.error}</p>
+      ) : header ? (
+        <div className="campaign-table-wrap">
+          <table className="campaign-stats-table">
+            <thead>
+              <tr>
+                {header.map((cell, index) => (
+                  <th key={index}>{cell || "Column " + (index + 1)}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {body.map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  {header.map((_, cellIndex) => (
+                    <td key={cellIndex}>{row[cellIndex]}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p className="campaign-table-status">
+          {label(site, "emptyCampaignStats", "The uploaded spreadsheet is empty.")}
+        </p>
+      )}
+    </section>
   );
 }
 function CampaignPage({ campaign }: { campaign: ContentItem }) {
@@ -535,6 +623,7 @@ function CampaignPage({ campaign }: { campaign: ContentItem }) {
         </aside>
       </div>
       <RichText text={campaign.body} className="article-prose" />
+      {campaign.statsFile && <CampaignSpreadsheet path={campaign.statsFile} />}
     </main>
   );
 }

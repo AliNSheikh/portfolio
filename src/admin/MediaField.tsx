@@ -2,7 +2,7 @@ import { useId, useState } from "react";
 import { ImagePlus, Upload, X } from "lucide-react";
 import type { Media } from "../model";
 import { TextField } from "./fields";
-import { uploadAccept } from "./media";
+import { documentAccept, imageAccept } from "./media";
 export type MediaTools = {
   media: Media[];
   resolve: (path: string) => string;
@@ -14,12 +14,18 @@ export function MediaField({
   onChange,
   tools,
   pdf = false,
+  accept,
+  mediaFilter,
+  placeholder = "uploads/photo.jpg or https://…",
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
   tools: MediaTools;
   pdf?: boolean;
+  accept?: string;
+  mediaFilter?: (media: Media) => boolean;
+  placeholder?: string;
 }) {
   const [select, setSelect] = useState(false),
     [busy, setBusy] = useState(false),
@@ -36,7 +42,11 @@ export function MediaField({
       setBusy(false);
     }
   }
-  const image = value && !value.toLowerCase().endsWith(".pdf");
+  const image = /\.(?:png|jpe?g|webp|gif|ico)(?:$|\?)/i.test(value),
+    allowedExisting =
+      mediaFilter ||
+      ((m: Media) =>
+        pdf ? m.type.startsWith("image/") || m.type === "application/pdf" : m.type.startsWith("image/"));
   return (
     <div className="media-field field-wide">
       <span className="field-label">{label}</span>
@@ -64,11 +74,7 @@ export function MediaField({
             className="file-input"
             id={id}
             type="file"
-            accept={
-              pdf
-                ? uploadAccept
-                : "image/png,image/jpeg,image/webp,image/gif,image/x-icon,image/vnd.microsoft.icon"
-            }
+            accept={accept || (pdf ? documentAccept : imageAccept)}
             disabled={busy}
             onChange={(e) => {
               if (e.target.files?.[0]) void upload(e.target.files[0]);
@@ -98,7 +104,7 @@ export function MediaField({
         label="File path or image URL"
         value={value}
         onChange={onChange}
-        placeholder="uploads/photo.jpg or https://…"
+        placeholder={placeholder}
       />
       {select && (
         <div className="media-selection">
@@ -115,7 +121,7 @@ export function MediaField({
           >
             <option value="">Choose a file…</option>
             {tools.media
-              .filter((m) => pdf || m.type.startsWith("image/"))
+              .filter(allowedExisting)
               .map((m) => (
                 <option value={m.path} key={m.id}>
                   {m.name}

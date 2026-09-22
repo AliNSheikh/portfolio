@@ -1,13 +1,19 @@
 import { newId, type Media, type StagedUpload } from "../model";
+export const imageAccept =
+  "image/png,image/jpeg,image/webp,image/gif,image/x-icon,image/vnd.microsoft.icon";
+export const documentAccept = `${imageAccept},application/pdf,.pdf`;
+export const spreadsheetAccept =
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xlsx";
 export const uploadAccept =
-  "image/png,image/jpeg,image/webp,image/gif,image/x-icon,image/vnd.microsoft.icon,application/pdf";
+  `${documentAccept},${spreadsheetAccept}`;
 export async function stageFile(
   file: File,
 ): Promise<{ media: Media; upload: StagedUpload; preview: string }> {
   if (file.size === 0 || file.size > 8 * 1024 * 1024)
-    throw new Error("Choose a nonempty image or PDF smaller than 8 MB.");
+    throw new Error("Choose a nonempty image, PDF, or XLSX file smaller than 8 MB.");
   const bytes = new Uint8Array(await file.arrayBuffer()),
-    text = new TextDecoder("ascii").decode(bytes.slice(0, 12));
+    text = new TextDecoder("ascii").decode(bytes.slice(0, 12)),
+    lowerName = file.name.toLowerCase();
   const ext =
     bytes[0] === 137 && text.slice(1, 4) === "PNG"
       ? "png"
@@ -24,10 +30,14 @@ export async function stageFile(
               ? "ico"
               : text.startsWith("%PDF-")
                 ? "pdf"
+                : lowerName.endsWith(".xlsx") &&
+                    bytes[0] === 80 &&
+                    bytes[1] === 75
+                  ? "xlsx"
                 : "";
   if (!ext)
     throw new Error(
-      "Supported formats are PNG, JPG, WebP, GIF, ICO, and PDF. Convert SVG logos to PNG before uploading.",
+      "Supported formats are PNG, JPG, WebP, GIF, ICO, PDF, and XLSX. Convert SVG logos to PNG before uploading.",
     );
   const safeName =
     file.name
@@ -43,6 +53,8 @@ export async function stageFile(
   const type =
     ext === "pdf"
       ? "application/pdf"
+      : ext === "xlsx"
+        ? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       : ext === "jpg"
         ? "image/jpeg"
         : ext === "ico"

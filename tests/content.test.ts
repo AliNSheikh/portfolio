@@ -108,6 +108,7 @@ test("campaign cards stay compact while campaign pages show full details; websit
       slug: "test-campaign",
       image: "uploads/test-result.png",
       images: ["uploads/test-detail.png"],
+      statsFile: "uploads/test-stats.xlsx",
       description: "Actual result narrative",
       platform: "Meta Ads",
       company: "Test client",
@@ -124,6 +125,7 @@ test("campaign cards stay compact while campaign pages show full details; websit
   );
   assert.match(home, /uploads\/test-result\.png/);
   assert.match(home, /href="\/portfolio\/test-campaign\/"/);
+  assert.match(home, /View Full Details/);
   assert.match(home, /<dd>45/);
   assert.ok(!home.includes("Actual result narrative"));
   const campaign = renderToString(
@@ -137,6 +139,7 @@ test("campaign cards stay compact while campaign pages show full details; websit
   assert.match(campaign, /Actual result narrative/);
   assert.match(campaign, /Detailed campaign body/);
   assert.match(campaign, /uploads\/test-detail\.png/);
+  assert.match(campaign, /Full campaign statistics/);
   assert.match(campaign, /Meta Ads/);
   assert.match(home, /Visit Website/);
   assert.match(home, /https:\/\/www.matthiolaflowers.com\//);
@@ -257,9 +260,16 @@ test("recognizes local media paths in profile fields and Markdown without treati
       status: "draft",
       body: "![chart](uploads/real-chart.png)\n![external](https://example.com/uploads/external.png)",
     });
+  doc.sections.find((s) => s.type === "campaigns")!.items.push({
+    ...newItem(),
+    title: "Stats campaign",
+    slug: "stats-campaign",
+    statsFile: "uploads/campaign-stats.xlsx",
+  });
   const paths = localMediaPaths(doc);
   assert.ok(paths.includes("uploads/ali.jpg"));
   assert.ok(paths.includes("uploads/real-chart.png"));
+  assert.ok(paths.includes("uploads/campaign-stats.xlsx"));
   assert.ok(!paths.includes("uploads/external.png"));
 });
 test("uploads accept supported signatures and reject script files", async () => {
@@ -272,6 +282,17 @@ test("uploads accept supported signatures and reject script files", async () => 
   assert.match(staged.upload.path, /^public\/uploads\/Logo-[0-9a-f-]+\.png$/);
   assert.equal(staged.media.type, "image/png");
   URL.revokeObjectURL(staged.preview);
+  const fakeXlsx = await stageFile(
+    new File([new Uint8Array([80, 75, 3, 4, 20, 0, 6, 0])], "Stats.xlsx", {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    }),
+  );
+  assert.match(fakeXlsx.upload.path, /^public\/uploads\/Stats-[0-9a-f-]+\.xlsx$/);
+  assert.equal(
+    fakeXlsx.media.type,
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  );
+  URL.revokeObjectURL(fakeXlsx.preview);
   await assert.rejects(
     () =>
       stageFile(

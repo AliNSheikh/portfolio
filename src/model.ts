@@ -33,6 +33,7 @@ export const itemSchema = z.object({
   image: short.default(""),
   imageAlt: short.default(""),
   images: z.array(short).max(30).default([]),
+  statsFile: short.default(""),
   url: short.default(""),
   buttonLabel: short.default(""),
   icon: short.default("sparkles"),
