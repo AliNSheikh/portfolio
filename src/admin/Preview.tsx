@@ -4,6 +4,7 @@ import { Monitor, Smartphone, Tablet, X } from "lucide-react";
 import { Portfolio } from "../portfolio";
 import { allArticles, type SiteDocument } from "../model";
 import stylesheet from "../site.css?url";
+import responsiveStylesheet from "../responsive-grids.css?url";
 
 export function Preview({
   site,
@@ -28,6 +29,8 @@ export function Preview({
   const srcDoc =
     '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><link rel="stylesheet" href="' +
     stylesheet +
+    '"><link rel="stylesheet" href="' +
+    responsiveStylesheet +
     '"></head><body><div id="preview-root"></div></body></html>';
   return (
     <dialog ref={dialog} className="preview-dialog" onCancel={onClose}>
