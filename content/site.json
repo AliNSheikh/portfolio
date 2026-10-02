@@ -57,7 +57,10 @@
       "backToArticles": "Back to articles",
       "readMore": "Read more",
       "showImage": "Show preview image"
-    }
+    },
+    "headerLogo": "uploads/Picsart-26-10-02-01-13-51-591-25ada86a-9c0d-4cad-9e6d-d562a0193ade.png",
+    "headerLogoAlt": "Ali Sheikh logo",
+    "headerLogoHeight": 80
   },
   "contact": {
     "floating": true,
@@ -2419,6 +2422,22 @@
       "type": "image/png",
       "size": 1167678,
       "alt": ""
+    },
+    {
+      "id": "media-ali-intro-20261002",
+      "name": "Ali Sheikh introduction.mp4",
+      "path": "uploads/ali-sheikh-intro-20261002.mp4",
+      "type": "video/mp4",
+      "size": 337900,
+      "alt": "Ali Sheikh gold logo introduction"
     }
-  ]
+  ],
+  "splash": {
+    "enabled": true,
+    "video": "uploads/ali-sheikh-intro-20261002.mp4",
+    "background": "#FFFFFF",
+    "frequency": "session",
+    "maxSeconds": 8,
+    "skipLabel": "Skip intro"
+  }
 }

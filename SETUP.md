@@ -112,9 +112,21 @@ To undo a publication, revert that content commit in GitHub. This triggers a new
 2. Choose HTML tag verification.
 3. Copy only the tag’s `content` value into **SEO & Google → Google site verification value**.
 4. Publish and wait for deployment, then select Verify in Google.
-5. Submit `https://alinsheikh.github.io/portfolio/sitemap.xml` in Search Console.
+5. Under **Indexing → Sitemaps**, submit `https://alinsheikh.github.io/portfolio/sitemap.xml` (enter `sitemap.xml` if the property prefix is already displayed). Use **URL Inspection** for the homepage or a published article/campaign, not for requesting indexing of the XML file.
 
 The verification tag is generated into public page HTML. The sitemap contains indexable pages and excludes hidden or draft articles. Google controls crawling, indexing, and rankings. [Google verification guidance](https://support.google.com/webmasters/answer/9008080?hl=en)
+
+The build checks every sitemap entry against generated public pages and excludes technical files and admin URLs. The XML is the primary sitemap; the existing TXT copy remains available for compatibility. Do not submit both. A browser message that the XML has no style information is normal.
+
+GitHub Pages does not provide custom HTTP response headers. Explicitly preventing an XML file from appearing in search requires `X-Robots-Tag: noindex` on that file, which cannot be configured through this Pages repository. HTML meta tags inside XML, `_headers` files, and a robots.txt disallow are not substitutes. The sitemap stays crawlable. If it already appears in search, Search Console's temporary removals can hide that exact URL; a permanent noindex header needs hosting/proxy support. Do not remove or block the homepage or the entire `/portfolio/` prefix. See [Google's noindex documentation](https://developers.google.com/search/docs/crawling-indexing/block-indexing).
+
+### Header logo and splash screen
+
+Open **Branding** in the control panel. **Header logo — upload from desktop** replaces the navigation wordmark; choose its height and image description there. Clearing the image restores the existing navigation name. The initial logo reuses your existing gold logo file; no existing media is removed.
+
+Under **Splash screen**, upload/select an MP4 or WebM video (up to 8 MB), enable or disable the intro, set once-per-tab-session or every-page-load playback, background color, skip wording, and maximum wait. Use a short video; H.264 MP4 gives broad device compatibility. Videos are muted to allow autoplay. Ended/failed/blocked playback, Escape, the skip button, or the time limit reveal the page automatically. Reduced-motion visitors bypass the intro. Full content is still present in the generated HTML for search engines and JavaScript-disabled visitors.
+
+The video preview in Branding plays your selected file. Save draft or Publish uploads the file; Publish deploys it with the settings. The website preview intentionally bypasses the intro so you can inspect your content.
 
 The build includes `robots.txt`. For a GitHub project website, crawlers look for it at the domain root, not `/portfolio/robots.txt`. Meta robots tags on every generated page control this portfolio’s indexing, and you can submit the project sitemap directly. If you control `alinsheikh.github.io`, you can also add the sitemap there. With a custom domain at `/`, the generated robots file is at the correct root location.
 

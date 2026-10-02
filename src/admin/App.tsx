@@ -958,7 +958,7 @@ export default function AdminApp() {
             {page === "media" && (
               <Card
                 title="Your media library"
-                description="Upload profile photos, project screenshots, certificates, logos, your CV, and campaign XLSX reports."
+                description="Upload profile photos, screenshots, certificates, logos, splash videos, your CV, and campaign XLSX reports."
                 actions={
                   <label className="admin-button primary small">
                     <Upload size={16} />
@@ -982,7 +982,7 @@ export default function AdminApp() {
                 }
               >
                 <p className="field-hint">
-                  PNG, JPG, WebP, GIF, ICO, PDF, XLSX · 8 MB per file. A used
+                  PNG, JPG, WebP, GIF, ICO, PDF, XLSX, MP4, WebM · 8 MB per file. A used
                   file cannot be deleted. Copy a file path to insert it into an
                   article or campaign report.
                 </p>

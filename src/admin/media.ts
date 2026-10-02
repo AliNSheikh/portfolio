@@ -4,13 +4,15 @@ export const imageAccept =
 export const documentAccept = `${imageAccept},application/pdf,.pdf`;
 export const spreadsheetAccept =
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xlsx";
-export const uploadAccept =
-  `${documentAccept},${spreadsheetAccept}`;
+export const videoAccept = "video/mp4,video/webm,.mp4,.webm";
+export const uploadAccept = `${documentAccept},${spreadsheetAccept},${videoAccept}`;
 export async function stageFile(
   file: File,
 ): Promise<{ media: Media; upload: StagedUpload; preview: string }> {
   if (file.size === 0 || file.size > 8 * 1024 * 1024)
-    throw new Error("Choose a nonempty image, PDF, or XLSX file smaller than 8 MB.");
+    throw new Error(
+      "Choose a nonempty image, video, PDF, or XLSX file smaller than 8 MB.",
+    );
   const bytes = new Uint8Array(await file.arrayBuffer()),
     text = new TextDecoder("ascii").decode(bytes.slice(0, 12)),
     lowerName = file.name.toLowerCase();
@@ -34,10 +36,23 @@ export async function stageFile(
                     bytes[0] === 80 &&
                     bytes[1] === 75
                   ? "xlsx"
-                : "";
+                  : lowerName.endsWith(".mp4") &&
+                      bytes.length >= 12 &&
+                      text.slice(4, 8) === "ftyp"
+                    ? "mp4"
+                    : lowerName.endsWith(".webm") &&
+                        bytes[0] === 0x1a &&
+                        bytes[1] === 0x45 &&
+                        bytes[2] === 0xdf &&
+                        bytes[3] === 0xa3 &&
+                        new TextDecoder("ascii")
+                          .decode(bytes.slice(0, 4096))
+                          .includes("webm")
+                      ? "webm"
+                      : "";
   if (!ext)
     throw new Error(
-      "Supported formats are PNG, JPG, WebP, GIF, ICO, PDF, and XLSX. Convert SVG logos to PNG before uploading.",
+      "Supported formats are PNG, JPG, WebP, GIF, ICO, PDF, XLSX, MP4, and WebM. Convert SVG logos to PNG before uploading.",
     );
   const safeName =
     file.name
@@ -51,15 +66,17 @@ export async function stageFile(
   let binary = "";
   for (const byte of bytes) binary += String.fromCharCode(byte);
   const type =
-    ext === "pdf"
-      ? "application/pdf"
-      : ext === "xlsx"
-        ? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      : ext === "jpg"
-        ? "image/jpeg"
-        : ext === "ico"
-          ? "image/x-icon"
-          : "image/" + ext;
+    ext === "mp4" || ext === "webm"
+      ? "video/" + ext
+      : ext === "pdf"
+        ? "application/pdf"
+        : ext === "xlsx"
+          ? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          : ext === "jpg"
+            ? "image/jpeg"
+            : ext === "ico"
+              ? "image/x-icon"
+              : "image/" + ext;
   return {
     media: { id, name: file.name, path, type, size: file.size, alt: "" },
     upload: { path: "public/" + path, base64: btoa(binary), size: file.size },

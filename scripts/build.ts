@@ -7,7 +7,13 @@ import { Portfolio } from "../src/portfolio";
 import { allArticles, allCampaigns } from "../src/model";
 import { campaignSlug, escapeHtml, localMediaPaths } from "../src/safe";
 import { prepare } from "./prepare";
-import { pageHead, sitemap, sitemapText, type Page } from "./seo";
+import {
+  pageHead,
+  sitemap,
+  sitemapText,
+  validateSitemapPages,
+  type Page,
+} from "./seo";
 
 const { site, project } = await prepare();
 for (const path of localMediaPaths(site)) {
@@ -32,6 +38,7 @@ const pages: Page[] = [
   })),
   { route: "/404/", missing: true },
 ];
+validateSitemapPages(site, pages);
 for (const page of pages) {
   const html = shell
     .replace(
@@ -63,7 +70,6 @@ await writeFile(
     "User-agent: *",
     site.seo.indexable ? `Disallow: ${project.basePath}admin/` : "Disallow: /",
     `Sitemap: ${new URL("sitemap.xml", site.seo.siteUrl).href}`,
-    `Sitemap: ${new URL("sitemap.txt", site.seo.siteUrl).href}`,
     "",
   ].join("\n"),
   "utf8",

@@ -78,7 +78,11 @@ export function absoluteUrl(path: string, siteUrl: string): string {
 export function articlePath(slug: string, basePath: string) {
   return `${basePath}articles/${encodeURIComponent(slug)}/`;
 }
-export function campaignSlug(item: { slug: string; title: string; id: string }) {
+export function campaignSlug(item: {
+  slug: string;
+  title: string;
+  id: string;
+}) {
   return item.slug.trim() || slugify(item.title) || item.id;
 }
 export function campaignPath(
@@ -232,6 +236,8 @@ export function validateDocument(input: unknown): SiteDocument {
     site.profile.cv,
     site.branding.favicon,
     site.branding.socialImage,
+    site.branding.headerLogo,
+    site.splash.video,
   ];
   for (const section of site.sections)
     for (const item of section.items)
@@ -246,6 +252,12 @@ export function validateDocument(input: unknown): SiteDocument {
   if (urls.some((url) => url && !safeUrl(url)))
     throw new Error(
       "Use a valid https URL, a site anchor, or an uploaded file. Script and unsafe URLs are not allowed.",
+    );
+  if (site.splash.enabled && !site.splash.video)
+    throw new Error("Choose a splash video or switch off the splash screen.");
+  if (site.splash.video && !/\.(?:mp4|webm)(?:[?#]|$)/i.test(site.splash.video))
+    throw new Error(
+      "Use an uploaded MP4/WebM file or a direct MP4/WebM video URL.",
     );
   try {
     const url = new URL(site.seo.siteUrl);
@@ -285,7 +297,18 @@ export function validateDocument(input: unknown): SiteDocument {
       throw new Error(
         "Published campaigns need a URL slug made of words separated by hyphens.",
       );
-    if (["admin", "articles", "404"].includes(slug))
+    if (
+      [
+        "admin",
+        "articles",
+        "404",
+        "sitemap",
+        "robots",
+        "assets",
+        "uploads",
+        "content",
+      ].includes(slug)
+    )
       throw new Error("Campaign slugs cannot use reserved page paths.");
     if (campaignSlugs.has(slug))
       throw new Error("Each published campaign needs its own unique URL slug.");

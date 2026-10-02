@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { Icon } from "./icons";
+import { SplashScreen } from "./splash";
 import {
   allArticles,
   allCampaigns,
@@ -89,8 +90,10 @@ function OutLink({
 }
 
 function Header() {
-  const { site, basePath } = useSite();
+  const { site, basePath, image } = useSite();
   const [open, setOpen] = useState(false);
+  const [failedLogo, setFailedLogo] = useState("");
+  const logo = image(site.branding.headerLogo);
   const sections = visibleSections(site).filter((s) => s.showInNav);
   return (
     <header className="site-header">
@@ -100,7 +103,21 @@ function Header() {
           href={basePath}
           aria-label={`${site.profile.name} home`}
         >
-          {site.branding.displayName || site.profile.name}
+          {logo && failedLogo !== logo ? (
+            <img
+              className="header-logo"
+              src={logo}
+              alt={
+                site.branding.headerLogoAlt ||
+                site.branding.displayName ||
+                site.profile.name
+              }
+              style={{ height: site.branding.headerLogoHeight }}
+              onError={() => setFailedLogo(logo)}
+            />
+          ) : (
+            site.branding.displayName || site.profile.name
+          )}
         </a>
         <button
           className="menu-toggle"
@@ -528,7 +545,11 @@ function CampaignSpreadsheet({ path }: { path: string }) {
         </div>
       ) : (
         <p className="campaign-table-status">
-          {label(site, "emptyCampaignStats", "The uploaded spreadsheet is empty.")}
+          {label(
+            site,
+            "emptyCampaignStats",
+            "The uploaded spreadsheet is empty.",
+          )}
         </p>
       )}
     </section>
@@ -615,8 +636,7 @@ function CampaignPage({ campaign }: { campaign: ContentItem }) {
           )}
           {campaign.url && (
             <OutLink href={campaign.url} className="site-button primary">
-              {campaign.buttonLabel ||
-                label(site, "viewResult", "View result")}
+              {campaign.buttonLabel || label(site, "viewResult", "View result")}
               <ArrowUpRight size={16} />
             </OutLink>
           )}
@@ -1269,6 +1289,14 @@ export function Portfolio({
         )}
         <Footer />
         <Analytics id={site.seo.ga4Id} preview={preview} />
+        {!preview &&
+          (route === "/" || route === "/articles/" || article || campaign) && (
+            <SplashScreen
+              settings={site.splash}
+              src={assetUrl(site.splash.video, basePath)}
+              scope={basePath}
+            />
+          )}
       </div>
     </SiteContext.Provider>
   );

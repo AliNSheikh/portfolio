@@ -79,17 +79,17 @@ export function pageHead(site: SiteDocument, page: Page) {
           ...(c.platform ? { genre: c.platform } : {}),
           ...(image ? { image: absoluteUrl(image, site.seo.siteUrl) } : {}),
         }
-    : {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        name: site.profile.name,
-        url: site.seo.siteUrl,
-        jobTitle: site.profile.role,
-        description: site.profile.introduction,
-        ...(site.profile.image
-          ? { image: absoluteUrl(site.profile.image, site.seo.siteUrl) }
-          : {}),
-      };
+      : {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: site.profile.name,
+          url: site.seo.siteUrl,
+          jobTitle: site.profile.role,
+          description: site.profile.introduction,
+          ...(site.profile.image
+            ? { image: absoluteUrl(site.profile.image, site.seo.siteUrl) }
+            : {}),
+        };
   return [
     `<title>${escapeHtml(title)}</title>`,
     tag("description", description),
@@ -127,6 +127,16 @@ function xmlEscape(value: string) {
 
 export function sitemapUrls(site: SiteDocument) {
   if (!site.seo.indexable) return [];
+  const base = new URL(site.seo.siteUrl);
+  if (
+    base.protocol !== "https:" ||
+    base.search ||
+    base.hash ||
+    !base.pathname.endsWith("/")
+  )
+    throw new Error(
+      "The sitemap requires the HTTPS website root ending in /, not a file or sitemap URL.",
+    );
 
   const campaignUrls = allCampaigns(site)
     .filter((campaign) => {
@@ -145,7 +155,7 @@ export function sitemapUrls(site: SiteDocument) {
     );
 
   const candidates = [
-    site.seo.siteUrl,
+    base.href,
     absoluteUrl("articles/", site.seo.siteUrl),
     ...campaignUrls,
     ...allArticles(site)
@@ -168,6 +178,35 @@ export function sitemapUrls(site: SiteDocument) {
   ].filter(Boolean);
 
   return [...new Set(candidates)];
+}
+
+/** Fail the deployment rather than advertise missing pages or sitemap files. */
+export function validateSitemapPages(site: SiteDocument, pages: Page[]) {
+  const generated = new Set(
+    pages
+      .filter((page) => !page.missing)
+      .map((page) =>
+        absoluteUrl(page.route.replace(/^\//, ""), site.seo.siteUrl),
+      ),
+  );
+  const base = new URL(site.seo.siteUrl);
+  for (const entry of sitemapUrls(site)) {
+    const url = new URL(entry);
+    const relative = url.pathname.slice(base.pathname.length);
+    if (
+      url.origin !== base.origin ||
+      !url.pathname.startsWith(base.pathname) ||
+      url.search ||
+      url.hash ||
+      !generated.has(entry) ||
+      /^(?:admin|404|sitemap(?:\.xml|\.txt)?|robots\.txt|assets|uploads)(?:\/|$)/i.test(
+        relative,
+      )
+    )
+      throw new Error(
+        `Sitemap entry must be a generated public page: ${entry}`,
+      );
+  }
 }
 
 export function sitemap(site: SiteDocument) {
@@ -197,9 +236,13 @@ export function sitemap(site: SiteDocument) {
   const entries = sitemapUrls(site)
     .map((url) => {
       const date = articleDates.get(url) || campaignDates.get(url) || "";
-      const lastmod = /^\d{4}-\d{2}-\d{2}$/.test(date)
-        ? `\n    <lastmod>${date}</lastmod>`
-        : "";
+      const parsed = new Date(date);
+      const lastmod =
+        /^\d{4}-\d{2}-\d{2}$/.test(date) &&
+        Number.isFinite(parsed.getTime()) &&
+        parsed.toISOString().slice(0, 10) === date
+          ? `\n    <lastmod>${date}</lastmod>`
+          : "";
 
       return `  <url>\n    <loc>${xmlEscape(url)}</loc>${lastmod}\n  </url>`;
     })

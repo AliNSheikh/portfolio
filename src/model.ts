@@ -101,12 +101,28 @@ export const siteSchema = z.object({
   branding: z.object({
     title: short,
     displayName: short,
+    headerLogo: short.default(""),
+    headerLogoAlt: short.default(""),
+    headerLogoHeight: z.number().int().min(32).max(96).default(64),
     favicon: short,
     description: text,
     socialImage: short,
     footerText: short,
     labels: z.record(z.string().max(100)),
   }),
+  splash: z
+    .object({
+      enabled: z.boolean().default(false),
+      video: short.default(""),
+      background: z
+        .string()
+        .regex(/^#[0-9a-fA-F]{6}$/)
+        .default("#FFFFFF"),
+      frequency: z.enum(["session", "entry"]).default("session"),
+      maxSeconds: z.number().int().min(3).max(15).default(8),
+      skipLabel: z.string().max(100).default("Skip intro"),
+    })
+    .default({}),
   contact: z.object({
     floating: z.boolean(),
     footerLinks: z.boolean(),

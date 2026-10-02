@@ -2,7 +2,7 @@ import { useId, useState } from "react";
 import { ImagePlus, Upload, X } from "lucide-react";
 import type { Media } from "../model";
 import { TextField } from "./fields";
-import { documentAccept, imageAccept } from "./media";
+import { documentAccept, imageAccept, videoAccept } from "./media";
 export type MediaTools = {
   media: Media[];
   resolve: (path: string) => string;
@@ -14,6 +14,7 @@ export function MediaField({
   onChange,
   tools,
   pdf = false,
+  video = false,
   accept,
   mediaFilter,
   placeholder = "uploads/photo.jpg or https://…",
@@ -23,6 +24,7 @@ export function MediaField({
   onChange: (v: string) => void;
   tools: MediaTools;
   pdf?: boolean;
+  video?: boolean;
   accept?: string;
   mediaFilter?: (media: Media) => boolean;
   placeholder?: string;
@@ -35,6 +37,19 @@ export function MediaField({
     setBusy(true);
     setError("");
     try {
+      if (video && !/\.(mp4|webm)$/i.test(file.name))
+        throw new Error("Choose an MP4 or WebM video.");
+      if (
+        !video &&
+        !accept &&
+        !/\.(png|jpe?g|webp|gif|ico)$/i.test(file.name) &&
+        !(pdf && /\.pdf$/i.test(file.name))
+      )
+        throw new Error(
+          pdf
+            ? "Choose an image or PDF."
+            : "Choose a PNG, JPG, WebP, GIF, or ICO image.",
+        );
       onChange(await tools.upload(file));
     } catch (e) {
       setError(e instanceof Error ? e.message : "The upload failed.");
@@ -46,12 +61,27 @@ export function MediaField({
     allowedExisting =
       mediaFilter ||
       ((m: Media) =>
-        pdf ? m.type.startsWith("image/") || m.type === "application/pdf" : m.type.startsWith("image/"));
+        video
+          ? m.type.startsWith("video/")
+          : pdf
+            ? m.type.startsWith("image/") || m.type === "application/pdf"
+            : m.type.startsWith("image/"));
   return (
     <div className="media-field field-wide">
       <span className="field-label">{label}</span>
       <div className="media-control">
-        {image ? (
+        {video && value ? (
+          <video
+            key={value}
+            className="media-thumb"
+            src={tools.resolve(value)}
+            controls
+            muted
+            playsInline
+            preload="metadata"
+            aria-label="Splash video preview"
+          />
+        ) : image ? (
           <img
             className="media-thumb"
             src={tools.resolve(value)}
@@ -74,7 +104,10 @@ export function MediaField({
             className="file-input"
             id={id}
             type="file"
-            accept={accept || (pdf ? documentAccept : imageAccept)}
+            accept={
+              accept ||
+              (video ? videoAccept : pdf ? documentAccept : imageAccept)
+            }
             disabled={busy}
             onChange={(e) => {
               if (e.target.files?.[0]) void upload(e.target.files[0]);
@@ -101,7 +134,9 @@ export function MediaField({
         </div>
       </div>
       <TextField
-        label="File path or image URL"
+        label={
+          video ? "File path or direct video URL" : "File path or image URL"
+        }
         value={value}
         onChange={onChange}
         placeholder={placeholder}
@@ -120,13 +155,11 @@ export function MediaField({
             }}
           >
             <option value="">Choose a file…</option>
-            {tools.media
-              .filter(allowedExisting)
-              .map((m) => (
-                <option value={m.path} key={m.id}>
-                  {m.name}
-                </option>
-              ))}
+            {tools.media.filter(allowedExisting).map((m) => (
+              <option value={m.path} key={m.id}>
+                {m.name}
+              </option>
+            ))}
           </select>
         </div>
       )}

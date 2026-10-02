@@ -344,7 +344,7 @@ export function BrandingSettings({ site, change, tools }: Props) {
     <>
       <Card
         title="Website identity"
-        description="Update your browser title, favicon, navigation name, and footer."
+        description="Upload your header logo from your computer and update your browser title, favicon, and footer."
       >
         <div className="form-grid">
           <TextField
@@ -356,6 +356,27 @@ export function BrandingSettings({ site, change, tools }: Props) {
             label="Navigation name / wordmark"
             value={b.displayName}
             onChange={(v) => set({ displayName: v })}
+          />
+          <MediaField
+            label="Header logo — upload from desktop"
+            value={b.headerLogo}
+            onChange={(v) => set({ headerLogo: v })}
+            tools={tools}
+          />
+          <TextField
+            label="Logo description"
+            value={b.headerLogoAlt}
+            onChange={(v) => set({ headerLogoAlt: v })}
+            hint="The name above remains the text fallback if the logo is cleared or unavailable."
+          />
+          <SelectField
+            label="Header logo height"
+            value={String(b.headerLogoHeight)}
+            onChange={(v) => set({ headerLogoHeight: Number(v) })}
+            options={[40, 48, 56, 64, 72, 80, 96].map((n) => ({
+              value: String(n),
+              label: `${n} px`,
+            }))}
           />
           <TextField
             label="Website description"
@@ -382,6 +403,85 @@ export function BrandingSettings({ site, change, tools }: Props) {
             hint="Use {year} for the current year."
           />
         </div>
+      </Card>
+      <Card
+        title="Splash screen"
+        description="Play a short introduction on entry, then automatically reveal the site. Reduced-motion visitors go straight to your content."
+      >
+        <div className="form-grid">
+          <Toggle
+            label="Enable video splash screen"
+            checked={site.splash.enabled}
+            onChange={(enabled) =>
+              change((d) => {
+                d.splash.enabled = enabled;
+              })
+            }
+          />
+          <MediaField
+            label="Splash video — upload from desktop"
+            value={site.splash.video}
+            onChange={(video) =>
+              change((d) => {
+                d.splash.video = video;
+              })
+            }
+            tools={tools}
+            video
+            placeholder="uploads/intro.mp4 or https://…/intro.mp4"
+          />
+          <SelectField
+            label="When to play"
+            value={site.splash.frequency}
+            onChange={(v) =>
+              change((d) => {
+                d.splash.frequency = v as "session" | "entry";
+              })
+            }
+            options={[
+              { value: "session", label: "Once per browser tab session" },
+              { value: "entry", label: "Every page load" },
+            ]}
+          />
+          <SelectField
+            label="Maximum wait"
+            value={String(site.splash.maxSeconds)}
+            onChange={(v) =>
+              change((d) => {
+                d.splash.maxSeconds = Number(v);
+              })
+            }
+            options={[3, 5, 8, 10, 15].map((n) => ({
+              value: String(n),
+              label: `${n} seconds`,
+            }))}
+            hint="The intro finishes when the video ends, or sooner if it cannot play. This is a fallback limit for slow connections."
+          />
+          <TextField
+            label="Splash background"
+            type="color"
+            value={site.splash.background}
+            onChange={(background) =>
+              change((d) => {
+                d.splash.background = background;
+              })
+            }
+          />
+          <TextField
+            label="Skip button label"
+            value={site.splash.skipLabel}
+            onChange={(skipLabel) =>
+              change((d) => {
+                d.splash.skipLabel = skipLabel;
+              })
+            }
+          />
+        </div>
+        <p className="field-hint">
+          MP4 or WebM · up to 8 MB. Use a short video. Playback is muted for
+          reliable autoplay on phones and desktops. Save a draft or publish to
+          upload it; Publish makes your changes live.
+        </p>
       </Card>
       <Card
         title="Public labels & buttons"
@@ -529,9 +629,17 @@ export function SEOSettings({ site, change }: Props) {
               Publish, wait for GitHub Pages deployment, and select Verify in
               Google.
             </li>
-            <li>Submit the sitemap below.</li>
+            <li>Open Indexing → Sitemaps and submit the XML sitemap below.</li>
           </ol>
           <code>{sitemap}</code>
+          <a
+            href={sitemap}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="admin-button small"
+          >
+            Open XML sitemap ↗
+          </a>
           <a
             href="https://search.google.com/search-console"
             target="_blank"
@@ -542,10 +650,17 @@ export function SEOSettings({ site, change }: Props) {
           </a>
         </div>
         <p className="field-hint">
-          Google decides when pages are indexed. Verification and sitemap
-          submission do not guarantee inclusion or ranking. On a GitHub project
-          site, this sitemap works at /portfolio/sitemap.xml; domain-root
-          robots.txt is controlled by the account's root website.
+          Submit this file in Sitemaps; use URL Inspection for your homepage,
+          articles, and campaign pages. Do not request indexing of sitemap.xml
+          itself. A sitemap helps Google discover pages; it does not guarantee
+          indexing.
+        </p>
+        <p className="field-hint">
+          GitHub Pages serves this file as XML and does not support custom
+          X-Robots-Tag headers to explicitly noindex the file. Blocking it in
+          robots.txt would prevent sitemap access and would not guarantee
+          removal from search. The account's root website controls domain-root
+          robots.txt.
         </p>
       </Card>
       <Card
