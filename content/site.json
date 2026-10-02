@@ -42,6 +42,9 @@
   "branding": {
     "title": "Ali Sheikh | Digital Marketing Specialist & Developer",
     "displayName": "Ali Sheikh",
+    "headerLogo": "uploads/Picsart-26-10-02-15-55-00-124-7ee098ef-5a2e-4410-8d34-83726ea47ea0.png",
+    "headerLogoAlt": "Ali Sheikh logo",
+    "headerLogoHeight": 80,
     "favicon": "uploads/Picsart-26-10-02-01-13-51-591-25ada86a-9c0d-4cad-9e6d-d562a0193ade.png",
     "description": "Performance marketing, paid ads, SEO, analytics, React, Node.js, Shopify, WordPress, Flutter, and web development.",
     "socialImage": "uploads/IMG-20260729-165831-6c52c88f-b806-4b38-ac77-6b5031f6d6bb.png",
@@ -57,10 +60,15 @@
       "backToArticles": "Back to articles",
       "readMore": "Read more",
       "showImage": "Show preview image"
-    },
-    "headerLogo": "uploads/Picsart-26-10-02-01-13-51-591-25ada86a-9c0d-4cad-9e6d-d562a0193ade.png",
-    "headerLogoAlt": "Ali Sheikh logo",
-    "headerLogoHeight": 80
+    }
+  },
+  "splash": {
+    "enabled": true,
+    "video": "uploads/ali-sheikh-intro-20261002.mp4",
+    "background": "#FFFFFF",
+    "frequency": "session",
+    "maxSeconds": 8,
+    "skipLabel": "Skip intro"
   },
   "contact": {
     "floating": true,
@@ -2430,14 +2438,22 @@
       "type": "video/mp4",
       "size": 337900,
       "alt": "Ali Sheikh gold logo introduction"
+    },
+    {
+      "id": "media-64741921-528",
+      "name": "Picsart_26-10-02_01-54-13-188.jpg.jpeg",
+      "path": "uploads/Picsart-26-10-02-01-54-13-188-jpg-b758d765-e020-4670-90c5-523b5b23bc9a.jpg",
+      "type": "image/jpeg",
+      "size": 6079851,
+      "alt": ""
+    },
+    {
+      "id": "media-7c220a6b-88f",
+      "name": "Picsart_26-10-02_15-55-00-124.png",
+      "path": "uploads/Picsart-26-10-02-15-55-00-124-7ee098ef-5a2e-4410-8d34-83726ea47ea0.png",
+      "type": "image/png",
+      "size": 2734110,
+      "alt": ""
     }
-  ],
-  "splash": {
-    "enabled": true,
-    "video": "uploads/ali-sheikh-intro-20261002.mp4",
-    "background": "#FFFFFF",
-    "frequency": "session",
-    "maxSeconds": 8,
-    "skipLabel": "Skip intro"
-  }
+  ]
 }
