@@ -5,15 +5,17 @@ import { createElement } from "react";
 import { renderToString } from "react-dom/server";
 import { Portfolio } from "../src/portfolio";
 import { allArticles, allCampaigns } from "../src/model";
-import { campaignSlug, escapeHtml, localMediaPaths } from "../src/safe";
+import { escapeHtml, localMediaPaths } from "../src/safe";
 import { prepare } from "./prepare";
 import {
   pageHead,
+  generatedPages,
+  robots,
   sitemap,
   sitemapText,
   validateSitemapPages,
-  type Page,
 } from "./seo";
+import { verifySeoArtifact } from "./verify-seo";
 
 const { site, project } = await prepare();
 for (const path of localMediaPaths(site)) {
@@ -25,19 +27,7 @@ for (const path of localMediaPaths(site)) {
 }
 await build();
 const shell = await readFile("dist/index.html", "utf8");
-const pages: Page[] = [
-  { route: "/" },
-  { route: "/articles/" },
-  ...allArticles(site).map((article) => ({
-    route: "/articles/" + encodeURIComponent(article.slug) + "/",
-    article,
-  })),
-  ...allCampaigns(site).map((campaign) => ({
-    route: "/" + encodeURIComponent(campaignSlug(campaign)) + "/",
-    campaign,
-  })),
-  { route: "/404/", missing: true },
-];
+const pages = generatedPages(site);
 validateSitemapPages(site, pages);
 for (const page of pages) {
   const html = shell
@@ -64,17 +54,9 @@ for (const page of pages) {
 }
 await writeFile("dist/sitemap.xml", sitemap(site), "utf8");
 await writeFile("dist/sitemap.txt", sitemapText(site), "utf8");
-await writeFile(
-  "dist/robots.txt",
-  [
-    "User-agent: *",
-    site.seo.indexable ? `Disallow: ${project.basePath}admin/` : "Disallow: /",
-    `Sitemap: ${new URL("sitemap.xml", site.seo.siteUrl).href}`,
-    "",
-  ].join("\n"),
-  "utf8",
-);
+await writeFile("dist/robots.txt", robots(project), "utf8");
 await writeFile("dist/.nojekyll", "", "utf8");
+await verifySeoArtifact(site, project);
 console.log(
   `Built portfolio, admin panel, ${allArticles(site).length} article pages, and ${allCampaigns(site).length} campaign pages. No drafts are copied into dist.`,
 );

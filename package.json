@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "node --import tsx scripts/prepare.ts && vite",
     "build": "node --import tsx scripts/build.ts",
+    "verify:seo": "node --import tsx scripts/verify-seo.ts",
     "preview": "vite preview",
     "check": "node --import tsx scripts/prepare.ts && tsc --noEmit",
     "test": "node --import tsx --test tests/*.test.ts"
@@ -27,6 +28,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "6.0.2",
+    "saxes": "6.0.0",
     "tsx": "^4.20.6",
     "typescript": "5.9.3",
     "vite": "8.2.2"

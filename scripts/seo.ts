@@ -2,6 +2,7 @@ import {
   allArticles,
   allCampaigns,
   type ContentItem,
+  type ProjectConfig,
   type SiteDocument,
 } from "../src/model";
 import { absoluteUrl, campaignSlug, escapeHtml, excerpt } from "../src/safe";
@@ -11,6 +12,45 @@ export type Page = {
   campaign?: ContentItem;
   missing?: boolean;
 };
+
+/** project.config.json owns the deployment URL; the CMS copy must agree. */
+export function validateProductionUrls(project: ProjectConfig, site: SiteDocument) {
+  const root = new URL(project.siteUrl);
+  if (
+    root.protocol !== "https:" || root.username || root.password || root.port ||
+    root.search || root.hash || root.pathname !== project.basePath ||
+    !root.pathname.endsWith("/") || root.href !== project.siteUrl ||
+    /^(?:localhost|127\.|0\.|\[::1\])/.test(root.hostname) ||
+    root.hostname.endsWith(".localhost") ||
+    site.seo.siteUrl !== project.siteUrl
+  )
+    throw new Error("The HTTPS siteUrl in content/site.json must match project.config.json exactly, including its basePath and trailing slash.");
+  if (root.hostname.endsWith(".github.io") && (
+    root.hostname !== `${project.owner.toLowerCase()}.github.io` ||
+    project.basePath !== `/${project.repository}/`
+  ))
+    throw new Error("A GitHub Pages project site must use its owner's github.io host and /repository/ basePath.");
+}
+
+export function generatedPages(site: SiteDocument): Page[] {
+  return [
+    { route: "/" },
+    { route: "/articles/" },
+    ...allArticles(site).map((article) => ({
+      route: "/articles/" + encodeURIComponent(article.slug) + "/", article,
+    })),
+    ...allCampaigns(site).map((campaign) => ({
+      route: "/" + encodeURIComponent(campaignSlug(campaign)) + "/", campaign,
+    })),
+    { route: "/404/", missing: true },
+  ];
+}
+
+export function pageIsIndexable(site: SiteDocument, page: Page) {
+  return site.seo.indexable && !page.missing &&
+    (page.article?.indexable ?? true) && (page.campaign?.indexable ?? true);
+}
+
 export function pageHead(site: SiteDocument, page: Page) {
   const a = page.article,
     c = page.campaign,
@@ -18,7 +58,7 @@ export function pageHead(site: SiteDocument, page: Page) {
     item = a || c,
     title = item
       ? item.seoTitle ||
-        site.seo.titleTemplate.replaceAll("{title}", item.title)
+        site.seo.titleTemplate.replaceAll("{title}", item.title.trim())
       : home
         ? site.branding.title
         : site.seo.titleTemplate.replaceAll(
@@ -26,7 +66,9 @@ export function pageHead(site: SiteDocument, page: Page) {
             page.missing ? "Page not found" : "Articles",
           );
   const description = item
-    ? item.seoDescription || item.description || excerpt(item.body)
+    ? [item.seoDescription, item.description, excerpt(item.body),
+        `${item.title.trim()}. ${site.branding.description}`]
+        .find((value) => value.trim())!
     : site.branding.description;
   const canonical =
     a?.canonicalUrl ||
@@ -39,11 +81,7 @@ export function pageHead(site: SiteDocument, page: Page) {
     c?.image ||
     site.branding.socialImage ||
     site.profile.image;
-  const indexable =
-    site.seo.indexable &&
-    !page.missing &&
-    (!a || a.indexable) &&
-    (!c || c.indexable);
+  const indexable = pageIsIndexable(site, page);
   const tag = (name: string, value: string, property = false) =>
     `<meta ${property ? "property" : "name"}="${name}" content="${escapeHtml(value)}">`;
   const schema: Record<string, unknown> = a
@@ -116,6 +154,18 @@ export function pageHead(site: SiteDocument, page: Page) {
   ]
     .filter(Boolean)
     .join("\n");
+}
+
+export function robots(project: ProjectConfig) {
+  return [
+    "User-agent: *",
+    "Allow: /",
+    "",
+    `Disallow: ${project.basePath}admin/`,
+    "",
+    `Sitemap: ${new URL("sitemap.xml", project.siteUrl).href}`,
+    "",
+  ].join("\n");
 }
 function xmlEscape(value: string) {
   return value.replace(/[&<>]/g, (character) => {

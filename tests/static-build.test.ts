@@ -16,10 +16,11 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import { execFile } from "node:child_process";
 import { newItem, newSection, siteSchema } from "../src/model";
+import { verifySeoArtifact } from "../scripts/verify-seo";
 const run = promisify(execFile),
   root = fileURLToPath(new URL("../", import.meta.url));
 
-test("a complete production build creates article HTML and excludes drafts; deletion removes stale pages", async () => {
+test("a complete production build creates crawlable HTML, rejects broken SEO artifacts, and removes stale pages", async (t) => {
   const directory = await mkdtemp(join(tmpdir(), "portfolio-build-check-"));
   try {
     for (const name of [
@@ -74,6 +75,13 @@ test("a complete production build creates article HTML and excludes drafts; dele
         title: "دليل التسويق",
         slug: "دليل-التسويق",
         body: "محتوى المقال للتحقق من دعم اللغة العربية.",
+      },
+      {
+        ...newItem(),
+        title: "Unlisted article",
+        slug: "unlisted",
+        body: "Published but intentionally excluded from search.",
+        indexable: false,
       },
       {
         ...newItem(),
@@ -178,6 +186,46 @@ test("a complete production build creates article HTML and excludes drafts; dele
       /build-campaign/,
     );
     await access(join(directory, "dist/.nojekyll"));
+    assert.doesNotMatch(builtSitemap, /unlisted/);
+    const project = JSON.parse(await readFile(join(directory, "project.config.json"), "utf8"));
+    const dist = join(directory, "dist");
+    const verify = () => verifySeoArtifact(document, project, dist);
+    const broken = async (name: string, file: string, change: (value: string) => string | null) => {
+      await t.test(name, async () => {
+        const path = join(dist, file), original = await readFile(path, "utf8");
+        try {
+          const replacement = change(original);
+          if (replacement === null) await rm(path);
+          else await writeFile(path, replacement);
+          await assert.rejects(verify);
+        } finally {
+          await writeFile(path, original);
+        }
+      });
+    };
+    const inject = (url: string) => (xml: string) => xml.replace("</urlset>", `<url><loc>${url}</loc></url></urlset>`);
+    await broken("missing sitemap fails", "sitemap.xml", () => null);
+    await broken("empty sitemap fails", "sitemap.xml", () => "");
+    await broken("malformed XML fails", "sitemap.xml", (xml) => xml.replace("</loc>", "</broken>"));
+    await broken("HTML fallback in place of XML fails", "sitemap.xml", () => home);
+    await broken("localhost URL fails", "sitemap.xml", inject("http://localhost:5173/portfolio/"));
+    await broken("external domain fails", "sitemap.xml", inject("https://example.com/portfolio/"));
+    await broken("missing project base path fails", "sitemap.xml", inject("https://alinsheikh.github.io/"));
+    await broken("admin URL fails", "sitemap.xml", inject(project.siteUrl + "admin/"));
+    await broken("noindex URL fails", "sitemap.xml", inject(project.siteUrl + "articles/unlisted/"));
+    await broken("duplicate URL fails", "sitemap.xml", inject(project.siteUrl));
+    await broken("missing canonical homepage fails", "sitemap.xml", (xml) => xml.replace(/<url>\s*<loc>[^<]+<\/loc>\s*<\/url>/, ""));
+    await broken("missing static article fails", "articles/build-verification/index.html", () => null);
+    await broken("unexpected noindex fails", "index.html", (html) => html.replace('content="index, follow"', 'content="noindex, follow"'));
+    await broken("incorrect canonical fails", "index.html", (html) => html.replace(`rel="canonical" href="${project.siteUrl}"`, 'rel="canonical" href="https://alinsheikh.github.io/"'));
+    await broken("duplicate canonical fails", "index.html", (html) => html.replace("</head>", `<link rel="canonical" href="${project.siteUrl}"></head>`));
+    await broken("empty campaign description fails", "build-campaign/index.html", (html) => html.replace(/name="description" content="[^"]*"/, 'name="description" content=""'));
+    await broken("incorrect asset base path fails", "index.html", (html) => html.replaceAll("/portfolio/assets/", "/assets/"));
+    await broken("robots blocking public pages fails", "robots.txt", (text) => text.replace("Disallow: /portfolio/admin/", "Disallow: /"));
+    await broken("wrong sitemap discovery URL fails", "robots.txt", (text) => text.replace("/portfolio/sitemap.xml", "/sitemap.xml"));
+    await verify();
+    // The standalone CI command must check the existing artifact without rebuilding it.
+    await run(process.execPath, ["--import", "tsx", "scripts/verify-seo.ts"], { cwd: directory });
     document.profile.image = "";
     document.profile.cv = "";
     document.profile.secondaryAction.visible = false;

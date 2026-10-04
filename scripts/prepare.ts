@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { publicDocument, type ProjectConfig } from "../src/model";
 import { validateDocument, validateProject } from "../src/safe";
+import { validateProductionUrls } from "./seo";
 export async function prepare() {
   const project = validateProject(
     JSON.parse(await readFile("project.config.json", "utf8")) as ProjectConfig,
@@ -10,15 +11,7 @@ export async function prepare() {
   const site = validateDocument(
     JSON.parse(await readFile("content/site.json", "utf8")),
   );
-  const configured = new URL(project.siteUrl),
-    canonical = new URL(site.seo.siteUrl);
-  if (
-    configured.pathname !== project.basePath ||
-    canonical.pathname !== project.basePath
-  )
-    throw new Error(
-      "project.config.json basePath and the website URL must have the same path. For this repository use /portfolio/.",
-    );
+  validateProductionUrls(project, site);
   await mkdir("src/generated", { recursive: true });
   await writeFile(
     "src/generated/public-data.json",
