@@ -1116,6 +1116,65 @@
               "unit": ""
             }
           ]
+        },
+        {
+          "id": "item-7134e73d-da6",
+          "title": "Music Awareness Campaign",
+          "subtitle": "",
+          "description": "",
+          "body": "Audience Demographics (Age & Gender Distribution)\n\nGender Split:\n\nWomen: 51% (641,441 impressions, Cost per result: 0.01 AED)\n\nMen: 49% (617,247 impressions, Cost per result: 0.01 AED)\n\nTop Performing Age Groups:\n\n25-34 years: Highest engagement and impressions share, driving the core of the music video traffic.\n\n35-44 years: Strong secondary audience with robust interaction rates.\n\n18-24 years & 45-54 years: Steady supporting engagement, expanding the overall reach across younger and mature demographics.\n\nKey Takeaways & Analytical Insights\n\nExceptional Efficiency: The campaign achieved an outstanding overall Cost Per Click (CPC) of just 0.01 AED with an exceptionally high CTR of 11.28%, indicating strong creative resonance and audience interest.\n\nGeographic Insights: Syria delivered the highest volume of traffic at the lowest cost efficiency (0.005 AED per click), whereas UAE and Lebanon yielded higher CPMs reflective of regional ad-auction dynamics, while still maintaining high click-through engagement.\n\nBalanced Demographic Reach: The music successfully resonated almost equally across both male and female listeners, peaking within the 25-34 demographic bracket.",
+          "image": "uploads/Gemini-Generated-Image-canyw7canyw7cany-b909ae14-19c1-4922-95a3-489bc6577b4f.jpg",
+          "imageAlt": "campaign results",
+          "images": [],
+          "statsFile": "",
+          "url": "https://docs.google.com/spreadsheets/d/1bFICj0lmL_7BrGfCowH3FpvnVZvy0i-5/edit?usp=drive_link&ouid=104834323443624888316&rtpof=true&sd=true",
+          "buttonLabel": "View Report",
+          "icon": "sparkles",
+          "status": "published",
+          "featured": true,
+          "company": "Artist Charbel Chalhoub",
+          "location": "",
+          "startDate": "",
+          "endDate": "",
+          "current": false,
+          "issuer": "",
+          "issueDate": "",
+          "credentialId": "",
+          "platform": "Meta",
+          "period": "10/08/2026 - 12/09/2026",
+          "role": "",
+          "category": "",
+          "slug": "music-awareness-campaign",
+          "date": "",
+          "updatedDate": "",
+          "seoTitle": "Charbel Chalhoub Ad Campaign Report | Insights & Results",
+          "seoDescription": "Discover key results from Charbel Chalhoub's music video awareness campaign across Syria, Lebanon, and the UAE, featuring 1.2M+ impressions and high engagement.",
+          "canonicalUrl": "",
+          "socialImage": "",
+          "indexable": true,
+          "previewMode": "image",
+          "metrics": [
+            {
+              "label": "Results",
+              "value": "129,979",
+              "unit": "Link Clicks"
+            },
+            {
+              "label": "CPM",
+              "value": "0.01",
+              "unit": "AED"
+            },
+            {
+              "label": "Impressions",
+              "value": "1,264,737",
+              "unit": ""
+            },
+            {
+              "label": "Reach",
+              "value": "779,316",
+              "unit": ""
+            }
+          ]
         }
       ]
     },
@@ -2453,6 +2512,14 @@
       "path": "uploads/Picsart-26-10-02-15-55-00-124-7ee098ef-5a2e-4410-8d34-83726ea47ea0.png",
       "type": "image/png",
       "size": 2734110,
+      "alt": ""
+    },
+    {
+      "id": "media-b2143938-5da",
+      "name": "Gemini_Generated_Image_canyw7canyw7cany.jpeg",
+      "path": "uploads/Gemini-Generated-Image-canyw7canyw7cany-b909ae14-19c1-4922-95a3-489bc6577b4f.jpg",
+      "type": "image/jpeg",
+      "size": 1569811,
       "alt": ""
     }
   ]
